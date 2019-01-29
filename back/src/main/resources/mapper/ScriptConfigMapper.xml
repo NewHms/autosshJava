@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.autossh.dailyinspection.dao.ScriptConfigDao">
+
+    <insert id="addScript" parameterType="com.alibaba.fastjson.JSONObject">
+        INSERT INTO SHELL_SETTING
+            (SHELL_NAME,SHELL_DESC,SYSTEM_TYPE,SYSTEM_VERSION)
+        VALUES
+            (#{shellName},#{shellDesc},#{systemType},#{systemVersion})
+    </insert>
+
+    <select id="countScript" resultType="Integer">
+        SELECT count(0)
+        FROM SHELL_SETTING SSH
+        WHERE SSH.IS_DELETE = '0'
+    </select>
+
+    <select id="listScript" resultType="com.alibaba.fastjson.JSONObject">
+        SELECT
+            SSH.ID id,
+            SSH.SHELL_NAME shellName,
+            SSH.SHELL_DESC shellDesc,
+            SSH.SYSTEM_TYPE systemType,
+            SSH.SYSTEM_VERSION systemVersion,
+            date_format(SSH.CREATE_TIME, '%Y-%m-%d %T') createTime
+        FROM SHELL_SETTING SSH
+        WHERE SSH.IS_DELETE = '0'
+        LIMIT #{offSet}, #{pageRow}
+    </select>
+
+    <update id="updateScript" parameterType="com.alibaba.fastjson.JSONObject">
+        UPDATE SHELL_SETTING SSH
+        SET
+            SSH.SHELL_NAME = #{shellName},
+            SSH.SHELL_DESC = #{shellDesc},
+            SSH.SYSTEM_TYPE = #{systemType},
+            SYSTEM_VERSION = #{systemVersion}
+        WHERE SSH.ID = #{id}
+    </update>
+
+    <delete id="" parameterType="com.alibaba.fastjson.JSONObject">
+        UPDATE SHELL_SETTING SSH
+        SET SSH.IS_DELETE = '1'
+        WHERE SSH.ID = #{id}
+    </delete>
+
+</mapper>

@@ -3,12 +3,12 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
-    <groupId>com.heeexy</groupId>
-    <artifactId>example</artifactId>
+    <groupId>com.autossh</groupId>
+    <artifactId>autossh</artifactId>
     <version>1.1.0-SNAPSHOT</version>
     <packaging>jar</packaging>
     <name>permissionExample</name>
-    <description>权限后端</description>
+    <description>自动脚本平台后端</description>
     <parent>
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-starter-parent</artifactId>

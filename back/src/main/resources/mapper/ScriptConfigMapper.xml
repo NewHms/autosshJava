@@ -18,7 +18,7 @@
 
     <select id="listScript" resultType="com.alibaba.fastjson.JSONObject">
         SELECT
-            SSH.ID id,
+            SSH.id id,
             SSH.SHELL_NAME shellName,
             SSH.SHELL_DESC shellDesc,
             SSH.SYSTEM_TYPE systemType,
@@ -39,10 +39,10 @@
         WHERE SSH.ID = #{id}
     </update>
 
-    <delete id="" parameterType="com.alibaba.fastjson.JSONObject">
+    <update id="deleteScirpt" parameterType="com.alibaba.fastjson.JSONObject">
         UPDATE SHELL_SETTING SSH
         SET SSH.IS_DELETE = '1'
         WHERE SSH.ID = #{id}
-    </delete>
+    </update>
 
 </mapper>

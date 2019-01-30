@@ -38,7 +38,7 @@ public class ScriptConfigController {
     @RequiresPermissions("scriptConfig:add")
     @PostMapping("/addScript")
     public JSONObject addScript(@RequestBody JSONObject requestJson){
-        CommonUtil.hasAllRequired(requestJson, "content");
+        CommonUtil.hasAllRequired(requestJson,"shellName");
         return service.addScript(requestJson);
     }
 
@@ -50,7 +50,7 @@ public class ScriptConfigController {
     @RequiresPermissions("scriptConfig:update")
     @PostMapping("/updateScript")
     public JSONObject updateScript(@RequestBody JSONObject requestJson){
-        CommonUtil.hasAllRequired(requestJson, "id,content");
+        CommonUtil.hasAllRequired(requestJson, "shellName");
         return service.updateScript(requestJson);
     }
 

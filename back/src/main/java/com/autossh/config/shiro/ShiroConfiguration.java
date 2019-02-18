@@ -72,7 +72,7 @@ public class ShiroConfiguration {
 		//使用单项hash 加盐
 		userRealm.setCredentialsMatcher(hashedCredentialsMatcher());
 
-       /* //使用 BCrypt
+      /* //使用 BCrypt
         userRealm.setCredentialsMatcher(new CredentialsMatcher() {
             @Override
             public boolean doCredentialsMatch(AuthenticationToken authenticationToken, AuthenticationInfo authenticationInfo) {

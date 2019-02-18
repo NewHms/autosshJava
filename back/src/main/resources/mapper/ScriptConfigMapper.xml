@@ -26,6 +26,9 @@
             date_format(SSH.CREATE_TIME, '%Y-%m-%d %T') createTime
         FROM SHELL_SETTING SSH
         WHERE SSH.IS_DELETE = '0'
+        <if test="shellDesc != '' and shellDesc != null ">
+            AND SSH.SHELL_DESC LIKE "%"#{shellDesc}"%"
+        </if>
         LIMIT #{offSet}, #{pageRow}
     </select>
 

@@ -8,9 +8,9 @@ spring:
           filters: stat
           driver-class-name: com.mysql.cj.jdbc.Driver
           #基本属性
-          url: jdbc:mysql://localhost:3306/spring-boot-vue?useUnicode=true&characterEncoding=UTF-8&allowMultiQueries=true
+          url: jdbc:mysql://47.104.192.159:3306/spring-boot-vue?useUnicode=true&characterEncoding=UTF-8&allowMultiQueries=true
           username: root
-          password: root
+          password: 1
           #配置初始化大小/最小/最大
           initial-size: 1
           min-idle: 1
@@ -32,4 +32,4 @@ spring:
 mybatis:
    mapperLocations: classpath:/mapper/*.xml
 server:
-  port: 8080
+  port: 1234

@@ -54,4 +54,15 @@ public class ScriptConfigServiceImpl implements ScriptConfigService {
         dao.deleteScirpt(jsonObject);
         return CommonUtil.successJson();
     }
+
+
+    /**
+     * 查询所有服务器的类型
+     * 在选择服务器类型的时候要使用此方法
+     */
+    @Override
+    public JSONObject getAllServerType() {
+        List<JSONObject> servertype = dao.getAllServerType();
+        return CommonUtil.successPage(servertype);
+    }
 }

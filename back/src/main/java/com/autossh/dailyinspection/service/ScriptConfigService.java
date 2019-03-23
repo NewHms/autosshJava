@@ -25,4 +25,10 @@ public interface ScriptConfigService {
      * 删除命令
      */
     JSONObject deleteScirpt(JSONObject jsonObject);
+
+	/**
+	 * 查询所有服务器的类型
+	 * 在选择服务器类型的时候要使用此方法
+	 */
+	JSONObject getAllServerType();
 }

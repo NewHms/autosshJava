@@ -26,10 +26,17 @@
               date_format(SSH.CREATE_TIME, '%Y-%m-%d %T') createTime
         FROM  DC_DISTRIBUTE_SETTING SSH
         WHERE SSH.IS_DELETE = '0'
-        <if test="sysVersion != '' and sysVersion != null ">
+        <if test="IP != '' and IP != null ">
             AND SSH.IP LIKE "%"#{IP}"%"
         </if>
         LIMIT #{offSet}, #{pageRow}
+    </select>
+
+    <select id="getAllServerType" resultType="com.alibaba.fastjson.JSONObject">
+        SELECT
+        id          serverId,
+        server_type serverType
+        FROM dc_config
     </select>
 
     <update id="updatePortion" parameterType="com.alibaba.fastjson.JSONObject">

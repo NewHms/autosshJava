@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
-<mapper namespace="com.autossh.dailyinspection.dao.ScriptConfigDao">
+<mapper namespace="com.autossh.dailyinspection.dao.ServerConfigDao">
 
     <insert id="addServer" parameterType="com.alibaba.fastjson.JSONObject">
         INSERT INTO DC_SHELL_SETTING
@@ -32,6 +32,8 @@
                 LEFT JOIN dc_distribute_setting p ON q. HOST = p.IP
                 WHERE
                     q.is_delete = 0
+                AND
+                    p.is_delete = 0
             ) LEVEL1
     </select>
 
@@ -41,7 +43,9 @@
         q.HOST host,
         q.APPLICATION_SERVER applicationServer,
         q.USER_NAME userName,
+        q.PASSWORD  password,
         q.DB_USERNAME dbUsername,
+        q.DB_PASSWORD dbPassword,
         p.SYS_VERSION sysVersion,
         q.SUBJECT subject,
         q.SYSTEM_TYPE systemType,
@@ -52,14 +56,16 @@
         dc_server_setting q
         LEFT JOIN dc_distribute_setting p ON q. HOST = p.IP
         WHERE
-        q.IS_DELETE = 0
+              q.IS_DELETE = 0
+        AND
+              p.is_delete = 0
         <if test="host != '' and host != null ">
             AND host LIKE "%"#{host}"%"
         </if>
         LIMIT #{offSet}, #{pageRow}
     </select>
-
-    <update id="updateScript" parameterType="com.alibaba.fastjson.JSONObject">
+    <!--适用版本字段不可修改 -->
+    <update id="updateServer" parameterType="com.alibaba.fastjson.JSONObject">
         UPDATE DC_SERVER_SETTING SSH
         LEFT JOIN
                DC_DISTRIBUTE_SETTING DDS ON SSH. HOST = DDS.IP
@@ -68,18 +74,26 @@
             SSH.APPLICATION_SERVER  =  #{applicationServer},
             SSH.USER_NAME           =  #{userName},
             SSH.DB_USERNAME         =  #{dbUsername},
-            DDS.SYS_VERSION         =  #{sysVersion},
+            <!-- DDS.SYS_VERSION         =  #{sysVersion},-->
             SSH.SUBJECT             =  #{subject},
             SSH.SYSTEM_TYPE         =  #{systemType},
             SSH.CRONTAB             =  #{crontab},
+            SSH.PASSWORD            =  #{password},
+            SSH.DB_PASSWORD         =  #{dbPassword},
             SSH.EXEC_TIME           =  #{execTime}
         WHERE DDS.ID = #{id}
     </update>
 
-    <update id="deleteScirpt" parameterType="com.alibaba.fastjson.JSONObject">
+    <update id="deleteServer" parameterType="com.alibaba.fastjson.JSONObject">
         UPDATE DC_SERVER_SETTING SSH
         SET    SSH.IS_DELETE = '1'
-        WHERE  SSH.ID = #{id}
+        WHERE  SSH.ID = #{id};
+
+        UPDATE DC_DISTRIBUTE_SETTING DDS
+        SET    DDS.IS_DELETE = '1'
+        WHERE  DDS.IP = (SELECT  SSH.HOST
+                          FROM DC_SERVER_SETTING SSH
+                          WHERE  SSH.ID = #{id});
     </update>
 
 </mapper>

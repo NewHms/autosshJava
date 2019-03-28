@@ -52,7 +52,13 @@
     <update id="deletePortion" parameterType="com.alibaba.fastjson.JSONObject">
         UPDATE DC_DISTRIBUTE_SETTING SSH
         SET SSH.IS_DELETE = '1'
-        WHERE SSH.ID = #{id}
+        WHERE SSH.ID = #{id};
+
+        UPDATE DC_SERVER_SETTING DSS
+        SET    DSS.IS_DELETE = '1'
+        WHERE  DSS.HOST = (SELECT  SSH.IP
+                            FROM DC_DISTRIBUTE_SETTING SSH
+                            WHERE  SSH.ID = #{id});
     </update>
 
 </mapper>

@@ -3,7 +3,7 @@ package com.autossh.dailyinspection.service;
 import com.alibaba.fastjson.JSONObject;
 
 /**
- * @author han-shy
+ * @author ZS
  */
 public interface ServerConfigService {
 	/**

@@ -1,5 +1,6 @@
 package com.autossh.quartz.controller;
 
+import com.autossh.config.quartz.QuartzManager;
 import com.autossh.quartz.service.QuartzService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -16,17 +17,20 @@ public class QuartzController {
     @Autowired
     private QuartzService quartzService;
 
+
     /**
      * 更新单个定时任务
      * @param jobName
      * @param jobGroup
      * @param cron
-     * @param className
+     * @param
      */
     @GetMapping("/refresh")
-    public void refresh(String jobName,String jobGroup,String cron,String className){
+    public void refresh(String jobName, String jobGroup, String triggerName, String triggerGroup,String cron){
         try {
-            quartzService.refresh(jobName,jobGroup,cron,className);
+           // QuartzManager quartzManager = new QuartzManager();
+            QuartzManager.modifyJobTime(jobName,jobGroup,triggerName,triggerGroup,cron);
+           // quartzService.refresh(jobName,jobGroup,cron,className);
         } catch (Exception e) {
             e.printStackTrace();
         }

@@ -30,21 +30,8 @@ public class QuartzController {
      * @param
      */
     @GetMapping("/refresh")
-    /*public void refresh(String jobName, String jobGroup, String triggerName, String triggerGroup,String cron){
-        try {
-           // QuartzManager quartzManager = new QuartzManager();
-            QuartzManager.modifyJobTime(jobName,jobGroup,triggerName,triggerGroup,cron);
-           // quartzService.refresh(jobName,jobGroup,cron,className);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    }*/
-    public void rescheduleJob(String jobName, String jobGroup, String cron) throws Exception
-    {
-        jobreschedule(jobName, jobGroup, cron);
-    }
 
-    public void jobreschedule(String jobName, String jobGroup, String cron) throws Exception
+    public void rescheduleJob(String jobName, String jobGroup, String cron) throws Exception
     {
         try {
             TriggerKey triggerKey = TriggerKey.triggerKey(jobName, jobGroup);
@@ -63,7 +50,6 @@ public class QuartzController {
             throw new Exception("更新定时任务失败");
         }
     }
-
 
 
 }

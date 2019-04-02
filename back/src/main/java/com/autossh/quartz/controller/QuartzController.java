@@ -1,5 +1,6 @@
 package com.autossh.quartz.controller;
 
+import com.autossh.config.quartz.QuartzConfig;
 import com.autossh.quartz.service.QuartzService;
 import org.quartz.*;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -48,6 +49,23 @@ public class QuartzController {
         } catch (SchedulerException e) {
             System.out.println("更新定时任务失败"+e);
             throw new Exception("更新定时任务失败");
+        }
+    }
+
+    /**
+     * 添加任务
+     * @param jobName
+     * @param jobGroup
+     * @param cron
+     * @param className
+     */
+    @GetMapping("/addJob")
+    public void addJob(String jobName, String jobGroup, String cron,String className){
+        try {
+            QuartzConfig quartzConfig = new QuartzConfig();
+            quartzConfig.addCommonCronJob(jobName,jobGroup,cron,scheduler,className);
+        }catch (Exception e){
+            e.printStackTrace();
         }
     }
 

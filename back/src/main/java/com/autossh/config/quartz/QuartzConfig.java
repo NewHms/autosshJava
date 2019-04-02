@@ -77,7 +77,7 @@ public class QuartzConfig {
      * @param jobGroup
      * @param scheduler
      */
-    private void deleteCommonJob(String jobName, String jobGroup, Scheduler scheduler) {
+    public void deleteCommonJob(String jobName, String jobGroup, Scheduler scheduler) {
         JobKey jobKey = JobKey.jobKey(jobName, jobGroup);
         try {
             scheduler.pauseJob(jobKey);//先暂停任务
@@ -90,7 +90,7 @@ public class QuartzConfig {
     /**
      * 添加一些定时任务，如日志清理任务
      */
-    private void addCommonCronJob(String jobName, String jobGroup, String cron, Scheduler scheduler, String className) {
+    public void addCommonCronJob(String jobName, String jobGroup, String cron, Scheduler scheduler, String className) {
         try {
             TriggerKey triggerKey = TriggerKey.triggerKey(jobName, jobGroup);
             //任务触发

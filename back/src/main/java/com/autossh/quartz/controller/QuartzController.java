@@ -7,7 +7,7 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-
+import com.autossh.config.quartz.QuartzConfig;
 /**
  * 定时脚本控制
  */
@@ -20,7 +20,7 @@ public class QuartzController {
 
     @Autowired @Qualifier("Scheduler")
     private Scheduler scheduler;
-
+    private QuartzConfig qzc;
 
     /**
      * 更新单个定时任务
@@ -29,6 +29,19 @@ public class QuartzController {
      * @param cron
      * @param
      */
+    @GetMapping("/add")
+    public void addJob(String jobName, String jobGroup, String cron, String className) throws Exception
+    {
+        QuartzConfig quartzConfig = new QuartzConfig();
+        quartzConfig.addCommonCronJob(jobName,jobGroup,cron,scheduler,className);
+    }
+
+    @GetMapping("/delete")
+    public void deleteJob(String jobName, String jobGroup) throws Exception
+    {
+        QuartzConfig quartzConfig = new QuartzConfig();
+        quartzConfig.deleteCommonJob(jobName,jobGroup,scheduler);
+    }
     @GetMapping("/refresh")
     /*public void refresh(String jobName, String jobGroup, String triggerName, String triggerGroup,String cron){
         try {

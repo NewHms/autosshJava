@@ -1,8 +1,8 @@
 package com.autossh.dailyinspection.service.impl;
 
 import com.alibaba.fastjson.JSONObject;
-import com.autossh.dailyinspection.dao.ScriptConfigDao;
-import com.autossh.dailyinspection.service.ScriptConfigService;
+import com.autossh.dailyinspection.dao.ServerConfigDao;
+import com.autossh.dailyinspection.service.ServerConfigService;
 import com.autossh.util.CommonUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -10,11 +10,11 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
-@Service("scriptConfigService")
-public class ScriptConfigServiceImpl implements ScriptConfigService {
+@Service("serverConfigService")
+public class ServerConfigServiceImpl implements ServerConfigService {
 
     @Autowired
-    private ScriptConfigDao dao;
+    private ServerConfigDao dao;
 
     /**
      * 新增命令
@@ -23,8 +23,8 @@ public class ScriptConfigServiceImpl implements ScriptConfigService {
      */
     @Override
     @Transactional(rollbackFor = Exception.class)
-    public JSONObject addScript(JSONObject jsonObject) {
-        dao.addScript(jsonObject);
+    public JSONObject addServer(JSONObject jsonObject) {
+        dao.addServer(jsonObject);
         return CommonUtil.successJson();
     }
 
@@ -34,24 +34,24 @@ public class ScriptConfigServiceImpl implements ScriptConfigService {
      * @return
      */
     @Override
-    public JSONObject listScript(JSONObject jsonObject) {
+    public JSONObject listServer(JSONObject jsonObject) {
         CommonUtil.fillPageParam(jsonObject);
-        int count = dao.countScript(jsonObject);
-        List<JSONObject> list = dao.listScript(jsonObject);
+        int count = dao.countServer(jsonObject);
+        List<JSONObject> list = dao.listServer(jsonObject);
         return CommonUtil.successPage(jsonObject,list,count);
     }
 
     @Override
     @Transactional(rollbackFor = Exception.class)
-    public JSONObject updateScript(JSONObject jsonObject) {
-        dao.updateScript(jsonObject);
+    public JSONObject updateServer(JSONObject jsonObject) {
+        dao.updateServer(jsonObject);
         return CommonUtil.successJson();
     }
 
     @Transactional(rollbackFor = Exception.class)
     @Override
-    public JSONObject deleteScirpt(JSONObject jsonObject) {
-        dao.deleteScirpt(jsonObject);
+    public JSONObject deleteServer(JSONObject jsonObject) {
+        dao.deleteServer(jsonObject);
         return CommonUtil.successJson();
     }
 
@@ -59,10 +59,10 @@ public class ScriptConfigServiceImpl implements ScriptConfigService {
     /**
      * 查询所有服务器的类型
      * 在选择服务器类型的时候要使用此方法
-     */
     @Override
     public JSONObject getAllServerType() {
         List<JSONObject> servertype = dao.getAllServerType();
         return CommonUtil.successPage(servertype);
     }
+     */
 }

@@ -4,7 +4,7 @@
 <mapper namespace="com.autossh.dailyinspection.dao.ScriptConfigDao">
 
     <insert id="addScript" parameterType="com.alibaba.fastjson.JSONObject">
-        INSERT INTO SHELL_SETTING
+        INSERT INTO DC_SHELL_SETTING
             (SHELL_NAME,SHELL_DESC,SYSTEM_TYPE,SYSTEM_VERSION)
         VALUES
             (#{shellName},#{shellDesc},#{systemType},#{systemVersion})
@@ -12,7 +12,7 @@
 
     <select id="countScript" resultType="Integer">
         SELECT count(0)
-        FROM SHELL_SETTING SSH
+        FROM DC_SHELL_SETTING SSH
         WHERE SSH.IS_DELETE = '0'
     </select>
 
@@ -24,7 +24,7 @@
             SSH.SYSTEM_TYPE systemType,
             SSH.SYSTEM_VERSION systemVersion,
             date_format(SSH.CREATE_TIME, '%Y-%m-%d %T') createTime
-        FROM SHELL_SETTING SSH
+        FROM DC_SHELL_SETTING SSH
         WHERE SSH.IS_DELETE = '0'
         <if test="shellDesc != '' and shellDesc != null ">
             AND SSH.SHELL_DESC LIKE "%"#{shellDesc}"%"
@@ -32,8 +32,15 @@
         LIMIT #{offSet}, #{pageRow}
     </select>
 
+    <select id="getAllServerType" resultType="com.alibaba.fastjson.JSONObject">
+        SELECT
+        id          serverId,
+        server_type serverType
+        FROM dc_config
+    </select>
+
     <update id="updateScript" parameterType="com.alibaba.fastjson.JSONObject">
-        UPDATE SHELL_SETTING SSH
+        UPDATE DC_SHELL_SETTING SSH
         SET
             SSH.SHELL_NAME = #{shellName},
             SSH.SHELL_DESC = #{shellDesc},
@@ -43,7 +50,7 @@
     </update>
 
     <update id="deleteScirpt" parameterType="com.alibaba.fastjson.JSONObject">
-        UPDATE SHELL_SETTING SSH
+        UPDATE DC_SHELL_SETTING SSH
         SET SSH.IS_DELETE = '1'
         WHERE SSH.ID = #{id}
     </update>

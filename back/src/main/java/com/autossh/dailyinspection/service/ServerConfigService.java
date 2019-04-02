@@ -3,32 +3,33 @@ package com.autossh.dailyinspection.service;
 import com.alibaba.fastjson.JSONObject;
 
 /**
- * @author han-shy
+ * @author ZS
  */
-public interface ScriptConfigService {
+public interface ServerConfigService {
 	/**
 	 * 新增命令
 	 */
-	JSONObject addScript(JSONObject jsonObject);
+	JSONObject addServer(JSONObject jsonObject);
 
 	/**
 	 * 命令列表
 	 */
-	JSONObject listScript(JSONObject jsonObject);
+	JSONObject listServer(JSONObject jsonObject);
 
 	/**
 	 * 更新命令
 	 */
-	JSONObject updateScript(JSONObject jsonObject);
+	JSONObject updateServer(JSONObject jsonObject);
 
     /**
      * 删除命令
      */
-    JSONObject deleteScirpt(JSONObject jsonObject);
+    JSONObject deleteServer(JSONObject jsonObject);
 
 	/**
 	 * 查询所有服务器的类型
 	 * 在选择服务器类型的时候要使用此方法
+	 * JSONObject getAllServerType();
 	 */
-	JSONObject getAllServerType();
+
 }

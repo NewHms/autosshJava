@@ -9,35 +9,36 @@ import java.util.List;
  * @author han-shy
  */
 @Component
-public interface ScriptConfigDao {
+public interface ServerConfigDao {
 	/**
 	 * 新增命令
 	 */
-	int addScript(JSONObject jsonObject);
+	int addServer(JSONObject jsonObject);
 
 	/**
 	 * 统计命令总数
 	 */
-	int countScript(JSONObject jsonObject);
+	int countServer(JSONObject jsonObject);
 
 	/**
 	 * 命令列表
 	 */
-	List<JSONObject> listScript(JSONObject jsonObject);
+	List<JSONObject> listServer(JSONObject jsonObject);
 
 	/**
 	 * 更新命令
 	 */
-	int updateScript(JSONObject jsonObject);
+	int updateServer(JSONObject jsonObject);
 
     /**
      * 删除命令
      */
-	int deleteScirpt(JSONObject jsonObject);
+	int deleteServer(JSONObject jsonObject);
 
 	/**
 	 * 查询某角色的全部数据
 	 * 在删除和修改角色时调用
+	 * List<JSONObject> getAllServerType();
 	 */
-	List<JSONObject> getAllServerType();
+
 }

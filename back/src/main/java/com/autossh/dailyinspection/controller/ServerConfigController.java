@@ -1,7 +1,7 @@
 package com.autossh.dailyinspection.controller;
 
 import com.alibaba.fastjson.JSONObject;
-import com.autossh.dailyinspection.service.ScriptConfigService;
+import com.autossh.dailyinspection.service.ServerConfigService;
 import com.autossh.util.CommonUtil;
 import org.apache.shiro.authz.annotation.Logical;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
@@ -14,11 +14,11 @@ import javax.servlet.http.HttpServletRequest;
  * 日检服务器配置controller层
  */
 @RestController
-@RequestMapping("/scriptConfig")
-public class ScriptConfigController {
+@RequestMapping("/serverConfig")
+public class ServerConfigController {
 
     @Autowired
-    private ScriptConfigService service;
+    private ServerConfigService service;
 
     /**
      * 查看命令列表
@@ -26,9 +26,9 @@ public class ScriptConfigController {
      * @return
      */
     @RequiresPermissions("scriptConfig:list")
-    @GetMapping("/listScriptConfig")
-    public JSONObject listScriptConfig(HttpServletRequest request){
-        return service.listScript(CommonUtil.request2Json(request));
+    @GetMapping("/listServerConfig")
+    public JSONObject listServerConfig(HttpServletRequest request){
+        return service.listServer(CommonUtil.request2Json(request));
     }
 
     /**
@@ -37,10 +37,10 @@ public class ScriptConfigController {
      * @return
      */
     @RequiresPermissions("scriptConfig:add")
-    @PostMapping("/addScript")
-    public JSONObject addScript(@RequestBody JSONObject requestJson){
+    @PostMapping("/addServer")
+    public JSONObject addServer(@RequestBody JSONObject requestJson){
         CommonUtil.hasAllRequired(requestJson,"shellName");
-        return service.addScript(requestJson);
+        return service.addServer(requestJson);
     }
 
     /**
@@ -49,10 +49,10 @@ public class ScriptConfigController {
      * @return
      */
     @RequiresPermissions("scriptConfig:update")
-    @PostMapping("/updateScript")
-    public JSONObject updateScript(@RequestBody JSONObject requestJson){
-        CommonUtil.hasAllRequired(requestJson, "shellName");
-        return service.updateScript(requestJson);
+    @PostMapping("/updateServer")
+    public JSONObject updateServer(@RequestBody JSONObject requestJson){
+        CommonUtil.hasAllRequired(requestJson, "password,dbPassword,crontab,host,applicationServer");
+        return service.updateServer(requestJson);
     }
 
     /**
@@ -61,15 +61,16 @@ public class ScriptConfigController {
      * @return
      */
     @RequiresPermissions("scriptConfig:delete")
-    @PostMapping("/deleteScript")
-    public JSONObject deleteScript(@RequestBody JSONObject requestJson){
+    @PostMapping("/deleteServer")
+    public JSONObject deleteServer(@RequestBody JSONObject requestJson){
         CommonUtil.hasAllRequired(requestJson, "id");
-        return service.deleteScirpt(requestJson);
+        return service.deleteServer(requestJson);
     }
-
+    /*
     @RequiresPermissions(value = {"scriptConfig:add", "scriptConfig:update"}, logical = Logical.OR)
     @GetMapping("/getAllServerType")
     public JSONObject getAllServerType() {
         return service.getAllServerType();
     }
+    */
 }

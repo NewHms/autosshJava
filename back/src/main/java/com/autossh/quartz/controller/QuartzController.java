@@ -1,13 +1,15 @@
 package com.autossh.quartz.controller;
 
+import com.autossh.config.quartz.QuartzConfig;
 import com.autossh.quartz.service.QuartzService;
 import org.quartz.*;
+import org.quartz.impl.matchers.GroupMatcher;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-import com.autossh.config.quartz.QuartzConfig;
+
 /**
  * 定时脚本控制
  */
@@ -43,21 +45,8 @@ public class QuartzController {
         quartzConfig.deleteCommonJob(jobName,jobGroup,scheduler);
     }
     @GetMapping("/refresh")
-    /*public void refresh(String jobName, String jobGroup, String triggerName, String triggerGroup,String cron){
-        try {
-           // QuartzManager quartzManager = new QuartzManager();
-            QuartzManager.modifyJobTime(jobName,jobGroup,triggerName,triggerGroup,cron);
-           // quartzService.refresh(jobName,jobGroup,cron,className);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    }*/
-    public void rescheduleJob(String jobName, String jobGroup, String cron) throws Exception
-    {
-        jobreschedule(jobName, jobGroup, cron);
-    }
 
-    public void jobreschedule(String jobName, String jobGroup, String cron) throws Exception
+    public void rescheduleJob(String jobName, String jobGroup, String cron) throws Exception
     {
         try {
             TriggerKey triggerKey = TriggerKey.triggerKey(jobName, jobGroup);
@@ -77,6 +66,89 @@ public class QuartzController {
         }
     }
 
+    /**
+     * 添加任务
+     * @param jobName
+     * @param jobGroup
+     * @param cron
+     * @param className
+     */
+    @GetMapping("/addJob")
+    public void addJob(String jobName, String jobGroup, String cron,String className){
+        try {
+            QuartzConfig quartzConfig = new QuartzConfig();
+            quartzConfig.addCommonCronJob(jobName,jobGroup,cron,scheduler,className);
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+    }
+
+    /**
+     * 获取所有计划中的任务列表
+     * @return
+     */
+    @GetMapping("/getAllJob")
+    public List<Map<String, Object>> queryAllJob() {
+        List<Map<String, Object>> jobList = null;
+        try {
+            GroupMatcher<JobKey> matcher = GroupMatcher.anyJobGroup();
+            Set<JobKey> jobKeys = scheduler.getJobKeys(matcher);
+            jobList = new ArrayList<Map<String, Object>>();
+            for (JobKey jobKey : jobKeys) {
+                List<? extends Trigger> triggers = scheduler.getTriggersOfJob(jobKey);
+                for (Trigger trigger : triggers) {
+                    Map<String, Object> map = new HashMap<>();
+                    map.put("jobName", jobKey.getName());
+                    map.put("jobGroupName", jobKey.getGroup());
+                    map.put("description", "触发器:" + trigger.getKey());
+                    Trigger.TriggerState triggerState = scheduler.getTriggerState(trigger.getKey());
+                    map.put("jobStatus", triggerState.name());
+                    if (trigger instanceof CronTrigger) {
+                        CronTrigger cronTrigger = (CronTrigger) trigger;
+                        String cronExpression = cronTrigger.getCronExpression();
+                        map.put("jobTime", cronExpression);
+                    }
+                    jobList.add(map);
+                }
+            }
+        } catch (SchedulerException e) {
+            e.printStackTrace();
+        }
+        return jobList;
+    }
 
 
+    /**
+     * 获取所有正在运行的job,如果job的线程还在运行状态，则可以获取的到，如果job跑完了，就获取不到了
+     *
+     * @return
+     */
+    @GetMapping("/getRunJob")
+    public List<Map<String, Object>> queryRunJob() {
+        List<Map<String, Object>> jobList = null;
+        try {
+            List<JobExecutionContext> executingJobs = scheduler.getCurrentlyExecutingJobs();
+            jobList = new ArrayList<Map<String, Object>>(executingJobs.size());
+            for (JobExecutionContext executingJob : executingJobs) {
+                Map<String, Object> map = new HashMap<String, Object>();
+                JobDetail jobDetail = executingJob.getJobDetail();
+                JobKey jobKey = jobDetail.getKey();
+                Trigger trigger = executingJob.getTrigger();
+                map.put("jobName", jobKey.getName());
+                map.put("jobGroupName", jobKey.getGroup());
+                map.put("description", "触发器:" + trigger.getKey());
+                Trigger.TriggerState triggerState = scheduler.getTriggerState(trigger.getKey());
+                map.put("jobStatus", triggerState.name());
+                if (trigger instanceof CronTrigger) {
+                    CronTrigger cronTrigger = (CronTrigger) trigger;
+                    String cronExpression = cronTrigger.getCronExpression();
+                    map.put("jobTime", cronExpression);
+                }
+                jobList.add(map);
+            }
+        } catch (SchedulerException e) {
+            e.printStackTrace();
+        }
+        return jobList;
+    }
 }

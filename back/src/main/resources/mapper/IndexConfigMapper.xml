@@ -34,7 +34,7 @@
                         q.CRONTAB cron,
                         'name',
                         'group',
-                        'com.autossh.quartz.job.MyTest1' classPath
+                        q.CLASS_PATH classPath
                 FROM
                         dc_server_setting q
                 LEFT JOIN dc_distribute_setting p ON q. HOST = p.IP
@@ -62,7 +62,7 @@
                 q.EXEC_TIME execTime,
                 q.CRONTAB cron,
                 'group',
-                'com.autossh.quartz.job.MyTest1' classPath
+                q.CLASS_PATH classPath
         FROM
                 dc_server_setting q
         LEFT JOIN dc_distribute_setting p ON q. HOST = p.IP
@@ -96,7 +96,7 @@
         q.EXEC_TIME execTime,
         q.CRONTAB cron,
         'group',
-        'com.autossh.quartz.job.MyTest1' classPath
+        q.CLASS_PATH classPath
         FROM
         dc_server_setting q
         LEFT JOIN dc_distribute_setting p ON q. HOST = p.IP
@@ -124,7 +124,7 @@
         q.EXEC_TIME execTime,
         q.CRONTAB cron,
         'group',
-        'com.autossh.quartz.job.MyTest1' classPath
+        q.CLASS_PATH classPath
         FROM
         dc_server_setting q
         LEFT JOIN dc_distribute_setting p ON q. HOST = p.IP

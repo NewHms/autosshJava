@@ -4,6 +4,7 @@ import com.alibaba.fastjson.JSONObject;
 import com.autossh.dailyinspection.service.ServerConfigService;
 import org.quartz.*;
 import org.quartz.ee.servlet.QuartzInitializerListener;
+import org.quartz.impl.matchers.GroupMatcher;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -11,7 +12,9 @@ import org.springframework.scheduling.quartz.SchedulerFactoryBean;
 
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 
 @Configuration
 public class QuartzConfig {
@@ -57,7 +60,7 @@ public class QuartzConfig {
      * @param scheduler
      * @author sujin
      */
-    private void addmyTestJob(Scheduler scheduler){
+    public void addmyTestJob(Scheduler scheduler){
         List<JSONObject> json = serverConfigService.getAllJobInfo();
 
         // 将数据库配置的任务全部添加
@@ -84,6 +87,31 @@ public class QuartzConfig {
         } catch (SchedulerException e) {
             e.printStackTrace();
         }
+    }
+
+    /**
+     * 删除所有定时任务
+     * @param jobGroup
+     * @param scheduler
+     */
+    public void deleteAllCommonJob(String jobGroup, Scheduler scheduler){
+        GroupMatcher<JobKey> matcher = GroupMatcher.groupEquals(jobGroup);
+        try{
+            Set<JobKey> jobkeySet = scheduler.getJobKeys(matcher);
+            List<JobKey> jobkeyList = new ArrayList<JobKey>();
+            jobkeyList.addAll(jobkeySet);
+            scheduler.deleteJobs(jobkeyList);
+        }catch (SchedulerException e){
+            e.printStackTrace();
+        }
+
+//        JobKey jobKey = JobKey.jobKey(jobName, jobGroup);
+//        try {
+//            scheduler.pauseJob(jobKey);//先暂停任务
+//            scheduler.deleteJob(jobKey);//再删除任务
+//        } catch (SchedulerException e) {
+//            e.printStackTrace();
+//        }
     }
 
     /**

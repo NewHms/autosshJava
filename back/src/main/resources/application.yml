@@ -21,13 +21,21 @@ spring:
           time-between-eviction-runs-millis: 60000
           #一个连接在池中最小生存的时间
           min-evictable-idle-time-millis: 300000
+          # 用来检测连接是否有效的SQL，如果为null，test-on-borrow test-on-return test-while-idle都会失效
           validation-query: SELECT 'x'
+          # 申请连接时候的检测 空闲时间大于 time-between-eviction-runs-millis 执行validation-query检测连接是否有效
           test-while-idle: true
+          # 申请连接时执行 validation-query 检验连接是否有效，配置了会降低性能
           test-on-borrow: false
+          # 归还连接时执行 validation-query 检验连接是否有效，配置了会降低性能
           test-on-return: false
-          #打开PSCache，并指定每个连接上PSCache的大小。oracle设为true，mysql设为false。分库分表较多推荐设置为false
+          #打开PSCache。oracle设为true，mysql设为false。分库分表较多推荐设置为false
           pool-prepared-statements: false
+          # 指定每个连接上PSCache的大小
           max-pool-prepared-statement-per-connection-size: 20
+          # 设置自动重连，但是消耗性能
+          # connection-error-retry-attempts: 0
+          # break-after-acquire-failure: true
     main:
       allow-bean-definition-overriding: true
 mybatis:

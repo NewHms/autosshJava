@@ -77,7 +77,7 @@ public class QuartzConfig {
      * @param jobGroup
      * @param scheduler
      */
-    private void deleteCommonJob(String jobName, String jobGroup, Scheduler scheduler) {
+    public void deleteCommonJob(String jobName, String jobGroup, Scheduler scheduler) {
         JobKey jobKey = JobKey.jobKey(jobName, jobGroup);
         try {
             scheduler.pauseJob(jobKey);//先暂停任务

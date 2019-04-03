@@ -32,6 +32,25 @@
         LIMIT #{offSet}, #{pageRow}
     </select>
 
+    <select id="listPortionOne" resultType="com.alibaba.fastjson.JSONObject">
+        SELECT
+              SSH.IP IP,
+              SSH.SYS_VERSION sysVersion,
+              SSH.EXEC_TIME execTime
+        FROM
+          dc_distribute_setting SSH
+        WHERE
+          ip NOT IN (
+                SELECT
+                HOST
+                FROM
+                dc_server_setting
+          )
+        AND is_delete = 0
+        ORDER BY
+          CREATE_TIME
+        LIMIT 1
+    </select>
     <select id="getAllServerType" resultType="com.alibaba.fastjson.JSONObject">
         SELECT
         id          serverId,

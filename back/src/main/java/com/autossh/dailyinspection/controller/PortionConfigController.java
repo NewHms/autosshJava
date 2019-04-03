@@ -31,6 +31,17 @@ public class PortionConfigController {
     }
 
     /**
+     * 查询一条需要回显在add窗口
+     * @param request
+     * @return
+     */
+    @RequiresPermissions("scriptConfig:list")
+    @GetMapping("/listPortionOneConfig")
+    public JSONObject listPortionOneConfig(HttpServletRequest request){
+        return service.listPortionOne(CommonUtil.request2Json(request));
+    }
+
+    /**
      * 添加命令
      * @param requestJson
      * @return

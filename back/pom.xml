@@ -64,6 +64,13 @@
             <artifactId>druid-spring-boot-starter</artifactId>
             <version>1.1.9</version>
         </dependency>
+        <dependency>
+            <groupId>com.alibaba</groupId>
+            <artifactId>druid</artifactId>
+            <version>1.1.9</version>
+            <!-- <scope>system</scope>-->
+            <!-- <systemPath>${project.basedir}/src/main/resources/jar/druid-1.1.14.jar</systemPath> -->
+        </dependency>
 
         <!-- Bcrypt -->
         <dependency>

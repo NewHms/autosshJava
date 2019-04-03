@@ -56,6 +56,16 @@ public class ServerConfigServiceImpl implements ServerConfigService {
     }
 
 
+    @Override
+    public List<JSONObject> getAllJobInfo() {
+        return dao.getAllJobInfo();
+    }
+
+    @Override
+    public List<JSONObject> equalsServer(String id) {
+        return dao.equalsServer(id);
+    }
+
     /**
      * 查询所有服务器的类型
      * 在选择服务器类型的时候要使用此方法

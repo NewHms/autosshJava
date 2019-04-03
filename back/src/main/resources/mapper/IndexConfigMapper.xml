@@ -4,10 +4,12 @@
 <mapper namespace="com.autossh.dailyinspection.dao.ServerConfigDao">
 
     <insert id="addServer" parameterType="com.alibaba.fastjson.JSONObject">
-        INSERT INTO DC_SHELL_SETTING
-            (SHELL_NAME,SHELL_DESC,SYSTEM_TYPE,SYSTEM_VERSION)
+        INSERT INTO dc_server_setting
+            (HOST, APPLICATION_SERVER, USER_NAME, PASSWORD, DB_USERNAME, DB_PASSWORD,
+             SUBJECT, SYSTEM_TYPE, CRONTAB, EXEC_TIME)
         VALUES
-            (#{shellName},#{shellDesc},#{systemType},#{systemVersion})
+	        (#{host}, #{applicationServer}, #{userName}, #{password}, #{dbUsername},
+	         #{dbPassword}, #{subject}, #{systemType}, #{crontab}, #{execTime});
     </insert>
 
     <select id="countServer" resultType="Integer">
@@ -16,28 +18,68 @@
         FROM
             (
                 SELECT
-                    p.id,
-                    q. HOST HOST,
-                    q.APPLICATION_SERVER applicationServer,
-                    q.USER_NAME userName,
-                    q.DB_USERNAME dbUsername,
-                    p.SYS_VERSION sysVersion,
-                    q. SUBJECT SUBJECT,
-                    q.SYSTEM_TYPE systemType,
-                    q.CRONTAB crontab,
-                    q.CREATION_DATE createTime,
-                    p.EXEC_TIME execTime
+                        p.id,
+                        q.HOST host,
+                        q.APPLICATION_SERVER applicationServer,
+                        q.USER_NAME userName,
+                        q.PASSWORD  password,
+                        q.DB_USERNAME dbUsername,
+                        q.DB_PASSWORD dbPassword,
+                        p.SYS_VERSION sysVersion,
+                        q.SUBJECT subject,
+                        q.SYSTEM_TYPE systemType,
+                        q.CRONTAB crontab,
+                        q.CREATION_DATE createTime,
+                        q.EXEC_TIME execTime,
+                        q.CRONTAB cron,
+                        'name',
+                        'group',
+                        'com.autossh.quartz.job.MyTest1' classPath
                 FROM
-                    dc_server_setting q
+                        dc_server_setting q
                 LEFT JOIN dc_distribute_setting p ON q. HOST = p.IP
                 WHERE
-                    q.is_delete = 0
+                        q.IS_DELETE = 0
                 AND
-                    p.is_delete = 0
+                        p.is_delete = 0
             ) LEVEL1
     </select>
 
     <select id="listServer" resultType="com.alibaba.fastjson.JSONObject">
+        SELECT
+                p.id,
+                q.HOST host,
+                q.APPLICATION_SERVER applicationServer,
+                q.USER_NAME userName,
+                q.PASSWORD  password,
+                q.DB_USERNAME dbUsername,
+                q.DB_PASSWORD dbPassword,
+                p.SYS_VERSION sysVersion,
+                q.SUBJECT subject,
+                q.SYSTEM_TYPE systemType,
+                q.CRONTAB crontab,
+                q.CREATION_DATE createTime,
+                q.EXEC_TIME execTime,
+                q.CRONTAB cron,
+                'group',
+                'com.autossh.quartz.job.MyTest1' classPath
+        FROM
+                dc_server_setting q
+        LEFT JOIN dc_distribute_setting p ON q. HOST = p.IP
+        WHERE
+                q.IS_DELETE = 0
+        AND
+                p.is_delete = 0
+        <if test="host != '' and host != null ">
+            AND host LIKE "%"#{host}"%"
+        </if>
+
+        <if test="id != '' and id != null ">
+            AND p.id = #{id}
+        </if>
+    </select>
+
+    <select id="equalsServer" resultType="com.alibaba.fastjson.JSONObject">
         SELECT
         p.id,
         q.HOST host,
@@ -51,19 +93,53 @@
         q.SYSTEM_TYPE systemType,
         q.CRONTAB crontab,
         q.CREATION_DATE createTime,
-        q.EXEC_TIME execTime
+        q.EXEC_TIME execTime,
+        q.CRONTAB cron,
+        'group',
+        'com.autossh.quartz.job.MyTest1' classPath
         FROM
         dc_server_setting q
         LEFT JOIN dc_distribute_setting p ON q. HOST = p.IP
         WHERE
-              q.IS_DELETE = 0
+            q.IS_DELETE = 0
         AND
-              p.is_delete = 0
+            p.is_delete = 0
+        AND p.id = #{id}
+    </select>
+
+    <select id="getAllJobInfo" resultType="com.alibaba.fastjson.JSONObject">
+        SELECT
+        p.id,
+        q.HOST host,
+        q.APPLICATION_SERVER applicationServer,
+        q.USER_NAME userName,
+        q.PASSWORD  password,
+        q.DB_USERNAME dbUsername,
+        q.DB_PASSWORD dbPassword,
+        p.SYS_VERSION sysVersion,
+        q.SUBJECT subject,
+        q.SYSTEM_TYPE systemType,
+        q.CRONTAB crontab,
+        q.CREATION_DATE createTime,
+        q.EXEC_TIME execTime,
+        q.CRONTAB cron,
+        'group',
+        'com.autossh.quartz.job.MyTest1' classPath
+        FROM
+        dc_server_setting q
+        LEFT JOIN dc_distribute_setting p ON q. HOST = p.IP
+        WHERE
+          q.IS_DELETE = 0
+        AND
+          p.is_delete = 0
+        AND
+          q.CRONTAB = 1
         <if test="host != '' and host != null ">
             AND host LIKE "%"#{host}"%"
         </if>
-        LIMIT #{offSet}, #{pageRow}
+
     </select>
+
     <!--适用版本字段不可修改 -->
     <update id="updateServer" parameterType="com.alibaba.fastjson.JSONObject">
         UPDATE DC_SERVER_SETTING SSH
@@ -79,7 +155,7 @@
             SSH.SYSTEM_TYPE         =  #{systemType},
             SSH.CRONTAB             =  #{crontab},
             SSH.PASSWORD            =  #{password},
-            SSH.DB_PASSWORD         =  #{dbPassword},
+            SSH.DB_PASSWORD         =  #{password},
             SSH.EXEC_TIME           =  #{execTime}
         WHERE DDS.ID = #{id}
     </update>

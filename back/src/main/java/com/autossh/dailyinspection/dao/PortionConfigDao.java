@@ -26,6 +26,11 @@ public interface PortionConfigDao {
 	List<JSONObject> listPortion(JSONObject jsonObject);
 
 	/**
+	 * 查询一条需要回显在add窗口
+	 */
+	List<JSONObject> listPortionOne(JSONObject jsonObject);
+
+	/**
 	 * 更新命令
 	 */
 	int updatePortion(JSONObject jsonObject);

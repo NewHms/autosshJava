@@ -2,6 +2,8 @@ package com.autossh.dailyinspection.service;
 
 import com.alibaba.fastjson.JSONObject;
 
+import java.util.List;
+
 /**
  * @author ZS
  */
@@ -27,9 +29,15 @@ public interface ServerConfigService {
     JSONObject deleteServer(JSONObject jsonObject);
 
 	/**
-	 * 查询所有服务器的类型
-	 * 在选择服务器类型的时候要使用此方法
-	 * JSONObject getAllServerType();
+	 * 提供给quartz，查询所有任务
 	 */
+
+	List<JSONObject> getAllJobInfo();
+
+	/**
+	 * 提供给数据对比
+	 */
+
+	List<JSONObject> equalsServer(String id);
 
 }

@@ -1,7 +1,7 @@
 package com.autossh.config.quartz;
 
 import com.alibaba.fastjson.JSONObject;
-import com.autossh.quartz.service.QuartzService;
+import com.autossh.dailyinspection.service.ServerConfigService;
 import org.quartz.*;
 import org.quartz.ee.servlet.QuartzInitializerListener;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -9,15 +9,14 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.scheduling.quartz.SchedulerFactoryBean;
 
+
 import java.io.IOException;
 import java.util.List;
 
 @Configuration
 public class QuartzConfig {
     @Autowired
-    private QuartzService quartzService;
-
-
+    private ServerConfigService serverConfigService;
 
     @Bean(name = "SchedulerFactory")
     public SchedulerFactoryBean schedulerFactoryBean() throws IOException {
@@ -59,13 +58,13 @@ public class QuartzConfig {
      * @author sujin
      */
     private void addmyTestJob(Scheduler scheduler){
-        List<JSONObject> json = quartzService.getJobInfo();
+        List<JSONObject> json = serverConfigService.getAllJobInfo();
 
         // 将数据库配置的任务全部添加
         for(int i = 0 ;i < json.size(); i++) {
-            String jobName = json.get(i).getString("name");
+            String jobName = json.get(i).getString("subject");
             String jobGroup = json.get(i).getString("group");
-            String cron = json.get(i).getString("cron");
+            String cron = json.get(i).getString("execTime");
             String className = json.get(i).getString("classPath");
             addCommonCronJob(jobName, jobGroup, cron, scheduler, className);
         }
@@ -130,6 +129,24 @@ public class QuartzConfig {
         }
     }
 
+    public void rescheduleJob(String jobName, String jobGroup, String cron, Scheduler scheduler) throws Exception
+    {
+        try {
+            TriggerKey triggerKey = TriggerKey.triggerKey(jobName, jobGroup);
+            // 表达式调度构建器
+            CronScheduleBuilder scheduleBuilder = CronScheduleBuilder.cronSchedule(cron);
 
+            CronTrigger trigger = (CronTrigger) scheduler.getTrigger(triggerKey);
+
+            // 按新的cronExpression表达式重新构建trigger
+            trigger = trigger.getTriggerBuilder().withIdentity(triggerKey).withSchedule(scheduleBuilder).build();
+
+            // 按新的trigger重新设置job执行
+            scheduler.rescheduleJob(triggerKey, trigger);
+        } catch (SchedulerException e) {
+            System.out.println("更新定时任务失败"+e);
+            throw new Exception("更新定时任务失败");
+        }
+    }
 
 }

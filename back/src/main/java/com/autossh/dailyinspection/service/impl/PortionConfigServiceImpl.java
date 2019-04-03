@@ -43,6 +43,19 @@ public class PortionConfigServiceImpl implements PortionConfigService {
     }
 
     /**
+     * 查询一条需要回显在add窗口
+     * @param jsonObject
+     * @return
+     */
+    @Override
+    public JSONObject listPortionOne(JSONObject jsonObject) {
+        CommonUtil.fillPageParam(jsonObject);
+        int count = dao.countPortion(jsonObject);
+        List<JSONObject> list = dao.listPortionOne(jsonObject);
+        return CommonUtil.successPage(jsonObject,list,count);
+    }
+
+    /**
      * 更新命令
      * @param jsonObject
      * @return

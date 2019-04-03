@@ -17,6 +17,11 @@ public interface PortionConfigService {
 	JSONObject listPortion(JSONObject jsonObject);
 
 	/**
+	 *  查询一条需要回显在add窗口
+	 */
+	JSONObject listPortionOne(JSONObject jsonObject);
+
+	/**
 	 * 更新命令
 	 */
 	JSONObject updatePortion(JSONObject jsonObject);

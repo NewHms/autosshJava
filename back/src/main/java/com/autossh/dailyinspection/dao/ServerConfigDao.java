@@ -41,4 +41,21 @@ public interface ServerConfigDao {
 	 * List<JSONObject> getAllServerType();
 	 */
 
+	/**
+	 * 提供给quartz，查询所有任务
+	 */
+	List<JSONObject> getAllJobInfo();
+
+
+	/**
+	 * 提供给数据对比
+	 */
+	List<JSONObject> equalsServer(String id);
+
+	/**
+	 * 提供给页面，查询任务
+	 * @param name
+	 * @return
+	 */
+	JSONObject getJobInfo(String name);
 }

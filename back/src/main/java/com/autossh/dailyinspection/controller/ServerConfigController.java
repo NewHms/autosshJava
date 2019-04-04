@@ -14,7 +14,7 @@ import javax.servlet.http.HttpServletRequest;
 import java.util.List;
 
 /**
- * 日检服务器配置controller层
+ * 日检配置controller层
  */
 @RestController
 @RequestMapping("/serverConfig")
@@ -27,7 +27,7 @@ public class ServerConfigController {
     private Scheduler scheduler;
     QuartzConfig quartzConfig = new QuartzConfig();
     /**
-     * 查看命令列表
+     * 查看服务器列表
      * @param request
      * @return
      */
@@ -38,7 +38,7 @@ public class ServerConfigController {
     }
 
     /**
-     * 添加命令
+     * 添加服务器
      * @param requestJson
      * @return
      */
@@ -59,7 +59,7 @@ public class ServerConfigController {
     }
 
     /**
-     * 修改命令
+     * 修改服务器
      * @param requestJson
      * @return
      */
@@ -98,7 +98,7 @@ public class ServerConfigController {
     }
 
     /**
-     * 删除命令
+     * 删除服务器
      * @param requestJson
      * @return
      */
@@ -112,6 +112,24 @@ public class ServerConfigController {
         }
         CommonUtil.hasAllRequired(requestJson, "id");
         return service.deleteServer(requestJson);
+    }
+
+    /**
+     * 刷新定时器
+     * @param request
+     * @return
+     */
+    @RequiresPermissions("scriptConfig:list")
+    @GetMapping("/flushScheduler")
+    public void flushScheduler(HttpServletRequest request){
+        try {
+            quartzConfig.deleteAllCommonJob("group",scheduler);
+            Thread.sleep(10 * 1000);
+            quartzConfig.addAllCronJob(scheduler,service);
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+//        return "刷新成功";
     }
     /*
     @RequiresPermissions(value = {"scriptConfig:add", "scriptConfig:update"}, logical = Logical.OR)

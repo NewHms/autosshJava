@@ -9,22 +9,22 @@ import java.util.List;
  */
 public interface ServerConfigService {
 	/**
-	 * 新增命令
+	 * 新增服务器
 	 */
 	JSONObject addServer(JSONObject jsonObject);
 
 	/**
-	 * 命令列表
+	 * 服务器列表
 	 */
 	JSONObject listServer(JSONObject jsonObject);
 
 	/**
-	 * 更新命令
+	 * 更新服务器
 	 */
 	JSONObject updateServer(JSONObject jsonObject);
 
     /**
-     * 删除命令
+     * 删除服务器
      */
     JSONObject deleteServer(JSONObject jsonObject);
 

@@ -11,27 +11,27 @@ import java.util.List;
 @Component
 public interface ServerConfigDao {
 	/**
-	 * 新增命令
+	 * 新增服务器
 	 */
 	int addServer(JSONObject jsonObject);
 
 	/**
-	 * 统计命令总数
+	 * 统计服务器总数
 	 */
 	int countServer(JSONObject jsonObject);
 
 	/**
-	 * 命令列表
+	 * 服务器列表
 	 */
 	List<JSONObject> listServer(JSONObject jsonObject);
 
 	/**
-	 * 更新命令
+	 * 更新服务器
 	 */
 	int updateServer(JSONObject jsonObject);
 
     /**
-     * 删除命令
+     * 删除服务器
      */
 	int deleteServer(JSONObject jsonObject);
 

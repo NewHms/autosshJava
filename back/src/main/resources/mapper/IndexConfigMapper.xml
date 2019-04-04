@@ -122,7 +122,6 @@
         q.CRONTAB crontab,
         q.CREATION_DATE createTime,
         q.EXEC_TIME execTime,
-        q.CRONTAB cron,
         'group',
         q.CLASS_PATH classPath
         FROM

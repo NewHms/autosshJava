@@ -1,6 +1,5 @@
 package com.autossh.dailyinspection.service.impl;
 
-import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 import com.autossh.dailyinspection.dao.PortionConfigDao;
 import com.autossh.dailyinspection.service.PortionConfigService;
@@ -18,7 +17,7 @@ public class PortionConfigServiceImpl implements PortionConfigService {
     private PortionConfigDao dao;
 
     /**
-     * 新增命令
+     * 新增配置
      * @param jsonObject
      * @return
      */
@@ -30,7 +29,7 @@ public class PortionConfigServiceImpl implements PortionConfigService {
     }
 
     /**
-     * 命令列表
+     * 配置列表
      * @param jsonObject
      * @return
      */
@@ -43,7 +42,7 @@ public class PortionConfigServiceImpl implements PortionConfigService {
     }
 
     /**
-     * 查询一条需要回显在add窗口
+     * 查询一条需要回显在index add窗口
      * @param jsonObject
      * @return
      */
@@ -56,7 +55,7 @@ public class PortionConfigServiceImpl implements PortionConfigService {
     }
 
     /**
-     * 更新命令
+     * 更新配置
      * @param jsonObject
      * @return
      */
@@ -70,7 +69,7 @@ public class PortionConfigServiceImpl implements PortionConfigService {
     }
 
     /**
-     * 删除命令
+     * 删除配置
      * @param jsonObject
      * @return
      */

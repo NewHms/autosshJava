@@ -11,32 +11,32 @@ import java.util.List;
 @Component
 public interface PortionConfigDao {
 	/**
-	 * 新增命令
+	 * 新增配置
 	 */
 	int addPortion(JSONObject jsonObject);
 
 	/**
-	 * 统计命令总数
+	 * 统计配置总数
 	 */
 	int countPortion(JSONObject jsonObject);
 
 	/**
-	 * 命令列表
+	 * 命令配置
 	 */
 	List<JSONObject> listPortion(JSONObject jsonObject);
 
 	/**
-	 * 查询一条需要回显在add窗口
+	 * 查询一条需要回显在index add窗口
 	 */
 	List<JSONObject> listPortionOne(JSONObject jsonObject);
 
 	/**
-	 * 更新命令
+	 * 更新配置
 	 */
 	int updatePortion(JSONObject jsonObject);
 
     /**
-     * 删除命令
+     * 删除配置
      */
 	int deletePortion(JSONObject jsonObject);
 }

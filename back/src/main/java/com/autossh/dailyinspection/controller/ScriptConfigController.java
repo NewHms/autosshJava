@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.*;
 import javax.servlet.http.HttpServletRequest;
 
 /**
- * 日检服务器配置controller层
+ * 日检命令配置controller层
  */
 @RestController
 @RequestMapping("/scriptConfig")

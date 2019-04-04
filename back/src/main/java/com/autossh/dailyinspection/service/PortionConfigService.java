@@ -7,27 +7,27 @@ import com.alibaba.fastjson.JSONObject;
  */
 public interface PortionConfigService {
 	/**
-	 * 新增命令
+	 * 新增配置
 	 */
 	JSONObject addPortion(JSONObject jsonObject);
 
 	/**
-	 * 命令列表
+	 * 配置列表
 	 */
 	JSONObject listPortion(JSONObject jsonObject);
 
 	/**
-	 *  查询一条需要回显在add窗口
+	 *  查询一条需要回显在index add窗口
 	 */
 	JSONObject listPortionOne(JSONObject jsonObject);
 
 	/**
-	 * 更新命令
+	 * 更新配置
 	 */
 	JSONObject updatePortion(JSONObject jsonObject);
 
     /**
-     * 删除命令
+     * 删除配置
      */
     JSONObject deletePortion(JSONObject jsonObject);
 }

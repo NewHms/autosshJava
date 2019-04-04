@@ -65,4 +65,14 @@ public class ScriptConfigServiceImpl implements ScriptConfigService {
         List<JSONObject> servertype = dao.getAllServerType();
         return CommonUtil.successPage(servertype);
     }
+
+    /**
+     * 查询所有服务器的适用版本
+	 * 在选择服务器适用版本的时候要使用此方法
+	 */
+    @Override
+    public JSONObject getAllSystemType() {
+        List<JSONObject> systemtype = dao.getAllSystemType();
+        return CommonUtil.successPage(systemtype);
+    }
 }

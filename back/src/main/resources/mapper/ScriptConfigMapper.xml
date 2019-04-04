@@ -39,6 +39,24 @@
         FROM dc_config
     </select>
 
+    <select id="getAllSystemType" resultType="com.alibaba.fastjson.JSONObject">
+        SELECT
+	        @rownum :=@rownum + 1 AS serverId,
+	        SYSTEM_VERSION serverType
+        FROM
+	    (
+      		SELECT DISTINCT
+			  CONCAT(
+				dss.SYSTEM_TYPE,
+				"_",
+				dss.SYSTEM_VERSION
+			  ) SYSTEM_VERSION
+		    FROM
+			  dc_shell_setting dss
+	    ) L1,
+	    (SELECT @rownum := 0) r
+    </select>
+
     <update id="updateScript" parameterType="com.alibaba.fastjson.JSONObject">
         UPDATE DC_SHELL_SETTING SSH
         SET

@@ -24,6 +24,8 @@ public class PortionConfigServiceImpl implements PortionConfigService {
     @Override
     @Transactional(rollbackFor = Exception.class)
     public JSONObject addPortion(JSONObject jsonObject) {
+        String strSysVersion = jsonObject.get("sysVersion").toString().replace("[","").replace("]","");
+        jsonObject.replace("sysVersion",strSysVersion);
         dao.addPortion(jsonObject);
         return CommonUtil.successJson();
     }

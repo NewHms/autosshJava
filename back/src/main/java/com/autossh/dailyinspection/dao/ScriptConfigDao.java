@@ -36,8 +36,14 @@ public interface ScriptConfigDao {
 	int deleteScirpt(JSONObject jsonObject);
 
 	/**
-	 * 查询某角色的全部数据
-	 * 在删除和修改角色时调用
+	 * 查询所有服务器的类型
+	 * 在选择服务器类型的时候要使用此方法
 	 */
 	List<JSONObject> getAllServerType();
+
+	/**
+	 * 查询所有服务器的适用版本
+	 * 在选择服务器适用版本的时候要使用此方法
+	 */
+	List<JSONObject> getAllSystemType();
 }

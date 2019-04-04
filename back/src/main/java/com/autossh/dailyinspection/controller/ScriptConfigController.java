@@ -72,4 +72,10 @@ public class ScriptConfigController {
     public JSONObject getAllServerType() {
         return service.getAllServerType();
     }
+
+    @RequiresPermissions(value = {"scriptConfig:add", "scriptConfig:update"}, logical = Logical.OR)
+    @GetMapping("/getAllSystemType")
+    public JSONObject getAllSystemType() {
+        return service.getAllSystemType();
+    }
 }

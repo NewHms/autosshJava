@@ -1,17 +1,23 @@
 package com.autossh.quartz.job;
 
+import org.quartz.Job;
+import org.quartz.JobExecutionContext;
+import org.quartz.JobExecutionException;
+
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
 
-public class java_Python {
-    public static void main1(String[] args) {
+public class myJavaPthon implements Job {
+    @Override
+    public void execute(JobExecutionContext jobExecutionContext) throws JobExecutionException {
+        String dailyIp = jobExecutionContext.getJobDetail().getJobDataMap().get("jobHost").toString();
 
         /*定义个获取结果的变量*/
-        String result="";
+        String result = "";
         try {
 
             /*调用python，其中字符串数组对应的是python，python文件路径，向python传递的参数*/
-            String[] strs=new String[] {"python","E:\\WorkSpace\\python\\check_db_daily.py",result};
+            String[] strs = new String[]{"python", "E:\\WorkSpace\\python\\check_db_daily.py", dailyIp};
 
             /*Runtime类封装了运行时的环境。每个 Java 应用程序都有一个 Runtime 类实例,
               使应用程序能够与其运行的环境相连接。
@@ -21,19 +27,19 @@ public class java_Python {
             Process pr = Runtime.getRuntime().exec(strs);
 
             /*使用缓冲流接受程序返回的结果*/
-            BufferedReader in = new BufferedReader(new InputStreamReader(pr.getInputStream(),"GBK"));//注意格式
+            BufferedReader in = new BufferedReader(new InputStreamReader(pr.getInputStream(), "GBK"));//注意格式
 
             /*定义一个接受python程序处理的返回结果*/
-            String line=" ";
+            String line = " ";
 
-            while((line=in.readLine())!=null) {
+            while ((line = in.readLine()) != null) {
                 //循环打印出运行的结果
-                result += line+"\n";
+                result += line + "\n";
             }
             //关闭in资源
             in.close();
             pr.waitFor();
-        }catch (Exception e) {
+        } catch (Exception e) {
             e.printStackTrace();
         }
         System.out.println("python传来的结果：");

@@ -8,7 +8,7 @@ import org.python.util.PythonInterpreter;
 import java.io.*;
 
 public class java_Python_test {
-    public static void main(String[] args) throws IOException, InterruptedException {
+    public static void main1(String[] args) throws IOException, InterruptedException {
 //        // TODO Auto-generated method stub
 //        PythonInterpreter interpreter = new PythonInterpreter();
 //        interpreter.execfile("F:\\untitled\\demo.py");

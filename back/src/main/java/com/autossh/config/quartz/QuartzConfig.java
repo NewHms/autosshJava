@@ -74,7 +74,8 @@ public class QuartzConfig {
      *  @author zs
      */
     public void addAllCronJob(Scheduler scheduler, ServerConfigService serverConfigService){
-        List<JSONObject> json = serverConfigService.getAllJobInfo();
+        try {
+            List<JSONObject> json = serverConfigService.getAllJobInfo();
 
         /*
          * 遍历数据库中存在的定时任务，
@@ -82,11 +83,15 @@ public class QuartzConfig {
          */
 
         for(int i = 0 ;i < json.size(); i++) {
+            String jobHost = json.get(i).getString("host");
             String jobName = json.get(i).getString("subject");
             String jobGroup = json.get(i).getString("group");
             String cron = json.get(i).getString("execTime");
             String className = json.get(i).getString("classPath");
-            addCommonCronJob(jobName, jobGroup, cron, scheduler, className);
+            addCommonCronJob(jobHost, jobName, jobGroup, cron, scheduler, className);
+        }
+        }catch (Exception e ){
+            e.printStackTrace();
         }
     }
 
@@ -131,7 +136,7 @@ public class QuartzConfig {
      *  @param scheduler
      *  @param className
      */
-    public void addCommonCronJob(String jobName, String jobGroup, String cron, Scheduler scheduler, String className) {
+    public void addCommonCronJob(String jobHost, String jobName, String jobGroup, String cron, Scheduler scheduler, String className) {
         try {
             TriggerKey triggerKey = TriggerKey.triggerKey(jobName, jobGroup);
             //任务触发
@@ -144,7 +149,8 @@ public class QuartzConfig {
                         .requestRecovery(true)//当Quartz服务被中止后，再次启动或集群中其他机器接手任务时会尝试恢复执行之前未完成的所有任务
                         .withIdentity(jobName, jobGroup)
                         .build();
-                jobDetail.getJobDataMap().put("jobName", jobName);
+                jobDetail.getJobDataMap().put("jobHost", jobHost);
+                jobDetail.getJobDataMap().put("jobName", jobHost);
                 jobDetail.getJobDataMap().put("jobGroup", jobGroup);
                 CronScheduleBuilder cronScheduleBuilder = CronScheduleBuilder.cronSchedule(cron);
                 /*withMisfireHandlingInstructionDoNothing
@@ -164,7 +170,7 @@ public class QuartzConfig {
                 scheduler.scheduleJob(jobDetail, trigger);
             } else {
                 scheduler.deleteJob(JobKey.jobKey(jobName, jobGroup));
-                addCommonCronJob(jobName, jobGroup, cron, scheduler, className);
+                addCommonCronJob(jobHost, jobName, jobGroup, cron, scheduler, className);
             }
         } catch (ClassNotFoundException e) {
             e.printStackTrace();

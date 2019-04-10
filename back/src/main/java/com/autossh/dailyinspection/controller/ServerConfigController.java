@@ -47,7 +47,7 @@ public class ServerConfigController {
     public JSONObject addServer(@RequestBody JSONObject requestJson){
         if (requestJson.getString("crontab").equals("1")) {
             try {
-                quartzConfig.addCommonCronJob(requestJson.getString("subject"),"group",requestJson.getString("execTime"),scheduler,"com.autossh.quartz.job.MyTest1");
+                quartzConfig.addCommonCronJob(requestJson.getString("host"), requestJson.getString("subject"),"group",requestJson.getString("execTime"),scheduler,"com.autossh.quartz.job.myJavaPthon");
                 CommonUtil.hasAllRequired(requestJson,"password,dbPassword,crontab,host,applicationServer");
             }catch (Exception e){
                 e.printStackTrace();
@@ -74,7 +74,7 @@ public class ServerConfigController {
         //String newExecTime = requestJson.getString("execTime");
         if (oldCrontab.equals("0") && newCrontab.equals("1")){
             try {
-                quartzConfig.addCommonCronJob(requestJson.getString("subject"),"group",requestJson.getString("execTime"),scheduler,"com.autossh.quartz.job.MyTest1");
+                quartzConfig.addCommonCronJob(requestJson.getString("host"), requestJson.getString("subject"),"group",requestJson.getString("execTime"),scheduler,"com.autossh.quartz.job.myJavaPthon");
                 CommonUtil.hasAllRequired(requestJson, "password,dbPassword,crontab,host,applicationServer");
             }catch (Exception e){
                 e.printStackTrace();

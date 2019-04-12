@@ -38,6 +38,7 @@
                 FROM
                         dc_server_setting q
                 LEFT JOIN dc_distribute_setting p ON q. HOST = p.IP
+                AND q.SYSTEM_TYPE = p.SYSTEM_TYPE
                 WHERE
                         q.IS_DELETE = 0
                 AND
@@ -66,6 +67,7 @@
         FROM
                 dc_server_setting q
         LEFT JOIN dc_distribute_setting p ON q. HOST = p.IP
+        AND q.SYSTEM_TYPE = p.SYSTEM_TYPE
         WHERE
                 q.IS_DELETE = 0
         AND
@@ -100,6 +102,7 @@
         FROM
         dc_server_setting q
         LEFT JOIN dc_distribute_setting p ON q. HOST = p.IP
+        AND q.SYSTEM_TYPE = p.SYSTEM_TYPE
         WHERE
             q.IS_DELETE = 0
         AND
@@ -127,6 +130,7 @@
         FROM
         dc_server_setting q
         LEFT JOIN dc_distribute_setting p ON q. HOST = p.IP
+        AND q.SYSTEM_TYPE = p.SYSTEM_TYPE
         WHERE
           q.IS_DELETE = 0
         AND
@@ -144,6 +148,7 @@
         UPDATE DC_SERVER_SETTING SSH
         LEFT JOIN
                DC_DISTRIBUTE_SETTING DDS ON SSH. HOST = DDS.IP
+        AND SSH.SYSTEM_TYPE = DDS.SYSTEM_TYPE
         SET
             SSH.HOST                =  #{host},
             SSH.APPLICATION_SERVER  =  #{applicationServer},

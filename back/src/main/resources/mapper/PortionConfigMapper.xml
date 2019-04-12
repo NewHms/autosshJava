@@ -5,9 +5,9 @@
 
     <insert id="addPortion" parameterType="com.alibaba.fastjson.JSONObject">
         INSERT INTO DC_DISTRIBUTE_SETTING
-            (IP,HOST_NAME,SYS_VERSION,EXEC_TIME)
+            (IP,HOST_NAME,SYS_VERSION,SYSTEM_TYPE,EXEC_TIME)
         VALUES
-            (#{IP},#{hostName},#{sysVersion},#{execTime})
+            (#{IP},#{hostName},#{sysVersion},#{systemType},#{execTime})
     </insert>
 
     <select id="countPortion" resultType="Integer">
@@ -22,6 +22,7 @@
               SSH.IP IP,
               SSH.HOST_NAME hostName,
               SSH.SYS_VERSION sysVersion,
+              SSH.SYSTEM_TYPE systemType,
               SSH.EXEC_TIME execTime,
               date_format(SSH.CREATE_TIME, '%Y-%m-%d %T') createTime
         FROM  DC_DISTRIBUTE_SETTING SSH
@@ -36,15 +37,19 @@
         SELECT
               SSH.IP IP,
               SSH.SYS_VERSION sysVersion,
-              SSH.EXEC_TIME execTime
+              SSH.EXEC_TIME execTime,
+              SSH.SYSTEM_TYPE systemType
         FROM
           dc_distribute_setting SSH
         WHERE
           ip NOT IN (
                 SELECT
-                HOST
+                  HOST
                 FROM
-                dc_server_setting
+                  dc_server_setting DSS
+                WHERE
+                   is_delete != 1
+                AND SSH.SYSTEM_TYPE = DSS.SYSTEM_TYPE
           )
         AND is_delete = 0
         ORDER BY
@@ -64,6 +69,7 @@
             SSH.IP          = #{IP},
             SSH.HOST_NAME   = #{hostName},
             SSH.SYS_VERSION = #{sysVersion},
+            SSH.SYSTEM_TYPE = #{systemType},
             EXEC_TIME       = #{execTime}
         WHERE SSH.ID = #{id}
     </update>
@@ -76,8 +82,9 @@
         UPDATE DC_SERVER_SETTING DSS
         SET    DSS.IS_DELETE = '1'
         WHERE  DSS.HOST = (SELECT  SSH.IP
-                            FROM DC_DISTRIBUTE_SETTING SSH
-                            WHERE  SSH.ID = #{id});
+                            FROM   DC_DISTRIBUTE_SETTING SSH
+                            WHERE  SSH.ID = #{id}
+                            AND    DSS.SYSTEM_TYPE = SSH.SYSTEM_TYPE);
     </update>
 
 </mapper>

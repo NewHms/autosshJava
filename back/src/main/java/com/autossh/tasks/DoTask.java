@@ -1,4 +1,4 @@
-package com.xx.tasks;
+package com.autossh.tasks;
 
 import java.util.concurrent.Future;
 

@@ -57,7 +57,6 @@ public class myJavaPthon implements InterruptableJob {
 
     @Override
     public void interrupt() throws UnableToInterruptJobException {
-        JobExecutionContext jobExecutionContext;
         isJobInterrupted = true;
         if (thisThread != null) {
 

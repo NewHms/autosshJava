@@ -12,7 +12,9 @@ import org.springframework.scheduling.quartz.SchedulerFactoryBean;
 
 
 import java.io.IOException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.Set;
 
@@ -84,11 +86,12 @@ public class QuartzConfig {
 
         for(int i = 0 ;i < json.size(); i++) {
             String jobHost = json.get(i).getString("host");
+            String jobType = json.get(i).getString("type");
             String jobName = json.get(i).getString("subject");
             String jobGroup = json.get(i).getString("group");
             String cron = json.get(i).getString("execTime");
             String className = json.get(i).getString("classPath");
-            addCommonCronJob(jobHost, jobName, jobGroup, cron, scheduler, className);
+            addCommonCronJob(jobType, jobHost, jobName, jobGroup, cron, scheduler, className);
         }
         }catch (Exception e ){
             e.printStackTrace();
@@ -136,7 +139,7 @@ public class QuartzConfig {
      *  @param scheduler
      *  @param className
      */
-    public void addCommonCronJob(String jobHost, String jobName, String jobGroup, String cron, Scheduler scheduler, String className) {
+    public void addCommonCronJob(String jobType, String jobHost, String jobName, String jobGroup, String cron, Scheduler scheduler, String className) {
         try {
             TriggerKey triggerKey = TriggerKey.triggerKey(jobName, jobGroup);
             //任务触发
@@ -150,7 +153,8 @@ public class QuartzConfig {
                         .withIdentity(jobName, jobGroup)
                         .build();
                 jobDetail.getJobDataMap().put("jobHost", jobHost);
-                jobDetail.getJobDataMap().put("jobName", jobHost);
+                jobDetail.getJobDataMap().put("jobType", jobType);
+                jobDetail.getJobDataMap().put("jobName", jobName);
                 jobDetail.getJobDataMap().put("jobGroup", jobGroup);
                 CronScheduleBuilder cronScheduleBuilder = CronScheduleBuilder.cronSchedule(cron);
                 /*withMisfireHandlingInstructionDoNothing
@@ -170,7 +174,7 @@ public class QuartzConfig {
                 scheduler.scheduleJob(jobDetail, trigger);
             } else {
                 scheduler.deleteJob(JobKey.jobKey(jobName, jobGroup));
-                addCommonCronJob(jobHost, jobName, jobGroup, cron, scheduler, className);
+                addCommonCronJob(jobType, jobHost, jobName, jobGroup, cron, scheduler, className);
             }
         } catch (ClassNotFoundException e) {
             e.printStackTrace();
@@ -179,6 +183,20 @@ public class QuartzConfig {
         }
     }
 
+    /**
+     *  获取正在执行的JOB
+     *  @param scheduler
+     */
+    public void getAllRunJob(Scheduler scheduler) throws SchedulerException {
+    List<JobExecutionContext> jobContexts = scheduler.getCurrentlyExecutingJobs();
+    for (JobExecutionContext context : jobContexts) {
+        System.out.println(context.getFireTime());
+        System.out.println(context.getFireInstanceId());
+        System.out.println(context.getTrigger().getKey());
+        System.out.println(context.getScheduledFireTime());
+
+    }
+    }
     /**
      *  刷新定时器中的JOB
      *  @param jobName

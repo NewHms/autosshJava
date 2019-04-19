@@ -11,6 +11,8 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -47,7 +49,7 @@ public class ServerConfigController {
     public JSONObject addServer(@RequestBody JSONObject requestJson){
         if (requestJson.getString("crontab").equals("1")) {
             try {
-                quartzConfig.addCommonCronJob(requestJson.getString("host"), requestJson.getString("subject"),"group",requestJson.getString("execTime"),scheduler,"com.autossh.quartz.job.myJavaPthon");
+                quartzConfig.addCommonCronJob(requestJson.getString("type"), requestJson.getString("host"), requestJson.getString("subject"),"group",requestJson.getString("execTime"),scheduler,"com.autossh.quartz.job.myJavaPthon");
                 CommonUtil.hasAllRequired(requestJson,"password,dbPassword,crontab,host,applicationServer");
             }catch (Exception e){
                 e.printStackTrace();
@@ -74,7 +76,7 @@ public class ServerConfigController {
         //String newExecTime = requestJson.getString("execTime");
         if (oldCrontab.equals("0") && newCrontab.equals("1")){
             try {
-                quartzConfig.addCommonCronJob(requestJson.getString("host"), requestJson.getString("subject"),"group",requestJson.getString("execTime"),scheduler,"com.autossh.quartz.job.myJavaPthon");
+                quartzConfig.addCommonCronJob(requestJson.getString("type"), requestJson.getString("host"), requestJson.getString("subject"),"group",requestJson.getString("execTime"),scheduler,"com.autossh.quartz.job.myJavaPthon");
                 CommonUtil.hasAllRequired(requestJson, "password,dbPassword,crontab,host,applicationServer");
             }catch (Exception e){
                 e.printStackTrace();
@@ -112,6 +114,44 @@ public class ServerConfigController {
         }
         CommonUtil.hasAllRequired(requestJson, "id");
         return service.deleteServer(requestJson);
+    }
+
+    /**
+     * 删除服务器
+     * @param
+     * @return
+     */
+    @RequiresPermissions("scriptConfig:delete")
+    @GetMapping("/getAllRunJob")
+    public void getAllRunJob(){
+        try {
+
+            List<JobExecutionContext> jobContexts = scheduler.getCurrentlyExecutingJobs();
+//            for (JobExecutionContext context : jobContexts) {
+//                SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");//设置日期格式
+//                String startTime = df.format(new Date());// new Date()为获取当前系统时间
+//            }
+            scheduler.interrupt(jobContexts.get(0).getJobDetail().getKey());
+
+
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+    }
+    /**
+     * 删除服务器
+     * @param
+     * @return
+     */
+    @RequiresPermissions("scriptConfig:delete")
+    @GetMapping("/getAllRunJob1")
+    public void getAllRunJob1(){
+        try {
+            quartzConfig.getAllRunJob(scheduler);
+
+        }catch (Exception e){
+            e.printStackTrace();
+        }
     }
 
     /**

@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.autossh.quartz.dao.QuartzDao">
+
+    <select id="getAll11obInfo" resultType="com.alibaba.fastjson.JSONObject">
+        SELECT
+	            EXEC_TIME cron,
+	            'name',
+	            'group',
+	            'com.autossh.quartz.job.MyTest1' classPath
+        FROM
+	            dc_server_setting
+        WHERE
+	            crontab = 1
+        GROUP BY
+	            EXEC_TIME
+    </select>
+
+</mapper>

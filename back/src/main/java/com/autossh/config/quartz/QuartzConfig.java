@@ -99,39 +99,6 @@ public class QuartzConfig {
     }
 
     /**
-     * 删除定时任务
-     * @param jobName
-     * @param jobGroup
-     * @param scheduler
-     */
-    public void deleteCommonJob(String jobName, String jobGroup, Scheduler scheduler) {
-        JobKey jobKey = JobKey.jobKey(jobName, jobGroup);
-        try {
-            scheduler.pauseJob(jobKey);//先暂停任务
-            scheduler.deleteJob(jobKey);//再删除任务
-        } catch (SchedulerException e) {
-            e.printStackTrace();
-        }
-    }
-
-    /**
-     * 删除所有定时任务，用于前台刷新定时器按钮
-     * @param jobGroup
-     * @param scheduler
-     */
-    public void deleteAllCommonJob(String jobGroup, Scheduler scheduler) {
-        GroupMatcher<JobKey> matcher = GroupMatcher.groupEquals(jobGroup);
-        try {
-            Set<JobKey> jobkeySet = scheduler.getJobKeys(matcher);
-            List<JobKey> jobkeyList = new ArrayList<JobKey>();
-            jobkeyList.addAll(jobkeySet);
-            scheduler.deleteJobs(jobkeyList);
-        } catch (SchedulerException e) {
-            e.printStackTrace();
-        }
-    }
-
-    /**
      *  将每个job添加到定时器中
      *  @param jobName
      *  @param jobGroup
@@ -184,19 +151,21 @@ public class QuartzConfig {
     }
 
     /**
-     *  获取正在执行的JOB
-     *  @param scheduler
+     * 删除定时任务
+     * @param jobName
+     * @param jobGroup
+     * @param scheduler
      */
-    public void getAllRunJob(Scheduler scheduler) throws SchedulerException {
-    List<JobExecutionContext> jobContexts = scheduler.getCurrentlyExecutingJobs();
-    for (JobExecutionContext context : jobContexts) {
-        System.out.println(context.getFireTime());
-        System.out.println(context.getFireInstanceId());
-        System.out.println(context.getTrigger().getKey());
-        System.out.println(context.getScheduledFireTime());
+    public void deleteCommonJob(String jobName, String jobGroup, Scheduler scheduler) {
+        JobKey jobKey = JobKey.jobKey(jobName, jobGroup);
+        try {
+            scheduler.pauseJob(jobKey);//先暂停任务
+            scheduler.deleteJob(jobKey);//再删除任务
+        } catch (SchedulerException e) {
+            e.printStackTrace();
+        }
+    }
 
-    }
-    }
     /**
      *  刷新定时器中的JOB
      *  @param jobName
@@ -221,6 +190,38 @@ public class QuartzConfig {
         } catch (SchedulerException e) {
             System.out.println("更新定时任务失败"+e);
             throw new Exception("更新定时任务失败");
+        }
+    }
+
+    /**
+     * 删除所有定时任务，用于前台刷新定时器按钮
+     * @param jobGroup
+     * @param scheduler
+     */
+    public void deleteAllCommonJob(String jobGroup, Scheduler scheduler) {
+        GroupMatcher<JobKey> matcher = GroupMatcher.groupEquals(jobGroup);
+        try {
+            Set<JobKey> jobkeySet = scheduler.getJobKeys(matcher);
+            List<JobKey> jobkeyList = new ArrayList<JobKey>();
+            jobkeyList.addAll(jobkeySet);
+            scheduler.deleteJobs(jobkeyList);
+        } catch (SchedulerException e) {
+            e.printStackTrace();
+        }
+    }
+
+    /**
+     *  获取正在执行的JOB
+     *  @param scheduler
+     */
+    public void getAllRunJob(Scheduler scheduler) throws SchedulerException {
+        List<JobExecutionContext> jobContexts = scheduler.getCurrentlyExecutingJobs();
+        for (JobExecutionContext context : jobContexts) {
+            System.out.println(context.getFireTime());
+            System.out.println(context.getFireInstanceId());
+            System.out.println(context.getTrigger().getKey());
+            System.out.println(context.getScheduledFireTime());
+
         }
     }
 

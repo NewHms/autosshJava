@@ -117,44 +117,6 @@ public class ServerConfigController {
     }
 
     /**
-     * 删除服务器
-     * @param
-     * @return
-     */
-    @RequiresPermissions("scriptConfig:delete")
-    @GetMapping("/getAllRunJob")
-    public void getAllRunJob(){
-        try {
-
-            List<JobExecutionContext> jobContexts = scheduler.getCurrentlyExecutingJobs();
-//            for (JobExecutionContext context : jobContexts) {
-//                SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");//设置日期格式
-//                String startTime = df.format(new Date());// new Date()为获取当前系统时间
-//            }
-            scheduler.interrupt(jobContexts.get(0).getJobDetail().getKey());
-
-
-        }catch (Exception e){
-            e.printStackTrace();
-        }
-    }
-    /**
-     * 删除服务器
-     * @param
-     * @return
-     */
-    @RequiresPermissions("scriptConfig:delete")
-    @GetMapping("/getAllRunJob1")
-    public void getAllRunJob1(){
-        try {
-            quartzConfig.getAllRunJob(scheduler);
-
-        }catch (Exception e){
-            e.printStackTrace();
-        }
-    }
-
-    /**
      * 刷新定时器
      * @param request
      * @return
@@ -170,6 +132,42 @@ public class ServerConfigController {
             e.printStackTrace();
         }
 //        return "刷新成功";
+    }
+    /**
+     * 杀死超时任务
+     * @param
+     * @return
+     */
+    @RequiresPermissions("scriptConfig:delete")
+    @GetMapping("/killRunJob")
+    public void killRunJob(){
+        try {
+
+            List<JobExecutionContext> jobContexts = scheduler.getCurrentlyExecutingJobs();
+            for (JobExecutionContext context : jobContexts) {
+                SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");//设置日期格式
+                String startTime = df.format(new Date());// new Date()为获取当前系统时间
+                scheduler.interrupt(context.getJobDetail().getKey());
+            }
+
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+    }
+    /**
+     * 获取正在运行的job
+     * @param
+     * @return
+     */
+    @RequiresPermissions("scriptConfig:delete")
+    @GetMapping("/getAllRunJob")
+    public void getAllRunJob(){
+        try {
+            quartzConfig.getAllRunJob(scheduler);
+
+        }catch (Exception e){
+            e.printStackTrace();
+        }
     }
     /*
     @RequiresPermissions(value = {"scriptConfig:add", "scriptConfig:update"}, logical = Logical.OR)

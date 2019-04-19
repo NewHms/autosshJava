@@ -8,22 +8,22 @@ import java.util.Date;
 
 public class myJavaPthon implements InterruptableJob {
     private volatile boolean isJobInterrupted = false;
-    private JobKey jobKey = null;
     private volatile Thread thisThread;
+
     @Override
     public void execute(JobExecutionContext jobExecutionContext) throws JobExecutionException {
         String dailyIp = jobExecutionContext.getJobDetail().getJobDataMap().get("jobHost").toString();
         String dailyType = jobExecutionContext.getJobDetail().getJobDataMap().get("jobType").toString();
         JobKey jobKey = jobExecutionContext.getJobDetail().getKey();
-        //System.out.println(jobKey);
+
+        //获取当前线程
         thisThread = Thread.currentThread();
-        System.out.println("Thread name of the current job: " + thisThread.getName());
-        System.out.println("Job " + jobKey + " executing at " + new Date());
         /*定义个获取结果的变量*/
         String result = "";
         try {
+
             Thread.sleep(100*1000);
-//
+
 //            /*调用python，其中字符串数组对应的是python，python文件路径，向python传递的参数*/
 //            String[] strs = new String[]{"python","D:\\workSpace\\python\\check_db_daily.py",dailyIp,dailyType};
 //
@@ -49,15 +49,6 @@ public class myJavaPthon implements InterruptableJob {
 //            pr.waitFor();
         } catch (Exception e) {
             e.printStackTrace();
-        }finally {
-            // 查看是否中断
-            if (isJobInterrupted) {
-                //LOG.info("Job " + jobKey + " did not complete");
-                System.out.println("Job " + jobKey + " did not complete");
-            } else {
-                //LOG.info("Job " + jobKey + " completed at " + new Date());
-                System.out.println("Job " + jobKey + " completed at " + new Date());
-            }
         }
         System.out.println("python传来的结果：");
         //打印返回结果
@@ -67,13 +58,11 @@ public class myJavaPthon implements InterruptableJob {
     @Override
     public void interrupt() throws UnableToInterruptJobException {
 
-        System.out.println("Job " + jobKey + "  -- INTERRUPTING --");
         isJobInterrupted = true;
         if (thisThread != null) {
-            // this called cause the ClosedByInterruptException to happen
-            System.out.println(thisThread.isInterrupted());
+
             thisThread.interrupt();
-            System.out.println(thisThread.isInterrupted());
+            System.out.println("死了");
         }
 
     }

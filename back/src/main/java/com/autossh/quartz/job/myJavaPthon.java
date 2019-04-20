@@ -9,10 +9,12 @@ import java.util.Date;
 public class myJavaPthon implements InterruptableJob {
     private volatile boolean isJobInterrupted = false;
     private volatile Thread thisThread;
+    private volatile  String dailyIp = "";
+    private volatile  String dailyType = "";
     @Override
     public void execute(JobExecutionContext jobExecutionContext) throws JobExecutionException {
-        String dailyIp = jobExecutionContext.getJobDetail().getJobDataMap().get("jobHost").toString();
-        String dailyType = jobExecutionContext.getJobDetail().getJobDataMap().get("jobType").toString();
+        dailyIp = jobExecutionContext.getJobDetail().getJobDataMap().get("jobHost").toString();
+        dailyType = jobExecutionContext.getJobDetail().getJobDataMap().get("jobType").toString();
         JobKey jobKey = jobExecutionContext.getJobDetail().getKey();
 
         //获取当前线程
@@ -57,6 +59,8 @@ public class myJavaPthon implements InterruptableJob {
 
     @Override
     public void interrupt() throws UnableToInterruptJobException {
+        System.out.println(dailyIp);
+        System.out.println(dailyType);
         isJobInterrupted = true;
         if (thisThread != null) {
 

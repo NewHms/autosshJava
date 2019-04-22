@@ -4,74 +4,74 @@
 <mapper namespace="com.autossh.dailyinspection.dao.PortionConfigDao">
 
     <insert id="addPortion" parameterType="com.alibaba.fastjson.JSONObject">
-        INSERT INTO DC_DISTRIBUTE_SETTING
-            (IP,HOST_NAME,SYS_VERSION,SYSTEM_TYPE,EXEC_TIME)
+        INSERT
+          INTO dc_distribute_setting
+               (ip,host_name,sys_version,system_type,exec_time)
         VALUES
-            (#{IP},#{hostName},#{sysVersion},#{systemType},#{execTime})
+               (#{IP},#{hostName},#{sysVersion},#{systemType},#{execTime})
     </insert>
 
     <select id="countPortion" resultType="Integer">
-        SELECT count(0)
-        FROM   DC_DISTRIBUTE_SETTING SSH
-        WHERE  SSH.IS_DELETE = '0'
+        SELECT   count(0)
+          FROM   dc_distribute_setting dds
+         WHERE   dds.is_delete = '0'
     </select>
 
     <select id="listPortion" resultType="com.alibaba.fastjson.JSONObject">
         SELECT
-              SSH.id id,
-              SSH.IP IP,
-              SSH.HOST_NAME hostName,
-              SSH.SYS_VERSION sysVersion,
-              SSH.SYSTEM_TYPE systemType,
-              SSH.EXEC_TIME execTime,
-              date_format(SSH.CREATE_TIME, '%Y-%m-%d %T') createTime
-        FROM  DC_DISTRIBUTE_SETTING SSH
-        WHERE SSH.IS_DELETE = '0'
-        <if test="IP != '' and IP != null ">
-            AND SSH.IP LIKE "%"#{IP}"%"
-        </if>
+                  ssh.id id,
+                  ssh.IP IP,
+                  ssh.host_name hostName,
+                  ssh.sys_version sysVersion,
+                  ssh.system_type systemType,
+                  ssh.exec_time execTime,
+                  date_format(ssh.create_time, '%Y-%m-%d %T') createTime
+           FROM   dc_distribute_setting ssh
+          WHERE ssh.IS_DELETE = '0'
+          <if test="IP != '' and IP != null ">
+            AND ssh.IP LIKE "%"#{IP}"%"
+          </if>
         LIMIT #{offSet}, #{pageRow}
     </select>
 
     <select id="listPortionOne" resultType="com.alibaba.fastjson.JSONObject">
         SELECT
-              SSH.IP IP,
-              SSH.SYS_VERSION sysVersion,
-              SSH.EXEC_TIME execTime,
-              SSH.SYSTEM_TYPE systemType
-        FROM
-          dc_distribute_setting SSH
-        WHERE
-          ip NOT IN (
+                  ssh.ip IP,
+                  ssh.sys_version sysVersion,
+                  ssh.exec_time   execTime,
+                  ssh.system_type systemType
+          FROM
+                  dc_distribute_setting SSH
+         WHERE ip
+        NOT IN (
                 SELECT
-                  HOST
-                FROM
-                  dc_server_setting DSS
-                WHERE
-                   is_delete != 1
-                AND SSH.SYSTEM_TYPE = DSS.SYSTEM_TYPE
-          )
-        AND is_delete = 0
-        ORDER BY
-          CREATE_TIME
-        LIMIT 1
+                        HOST
+                  FROM
+                        dc_server_setting dss
+                 WHERE
+                        is_delete != 1
+                   AND ssh.system_type = dss.system_type)
+           AND is_delete = 0
+      ORDER BY
+                CREATE_TIME
+      LIMIT 1
     </select>
     <select id="getAllServerType" resultType="com.alibaba.fastjson.JSONObject">
         SELECT
-        id          serverId,
-        server_type serverType
-        FROM dc_config
+                id          serverId,
+                server_type serverType
+          FROM dc_config
     </select>
 
     <update id="updatePortion" parameterType="com.alibaba.fastjson.JSONObject">
-        UPDATE DC_DISTRIBUTE_SETTING SSH
-        SET
-            SSH.IP          = #{IP},
-            SSH.HOST_NAME   = #{hostName},
-            SSH.SYS_VERSION = #{sysVersion},
-            SSH.SYSTEM_TYPE = #{systemType},
-            EXEC_TIME       = #{execTime}
-        WHERE SSH.ID = #{id}
+        UPDATE dc_distribute_setting ssh
+           SET
+                ssh.ip          = #{IP},
+                ssh.host_name   = #{hostName},
+                ssh.sys_version = #{sysVersion},
+                ssh.system_type = #{systemType},
+                exec_time       = #{execTime}
+         WHERE ssh.id = #{id}
     </update>
 
     <update id="deletePortion" parameterType="com.alibaba.fastjson.JSONObject">

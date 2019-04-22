@@ -4,78 +4,79 @@
 <mapper namespace="com.autossh.dailyinspection.dao.ServerConfigDao">
 
     <insert id="addServer" parameterType="com.alibaba.fastjson.JSONObject">
-        INSERT INTO dc_server_setting
-            (HOST, SERVICE_NAME, POST, APPLICATION_SERVER, USER_NAME, PASSWORD, DB_USERNAME, DB_PASSWORD,
-             SUBJECT, SYSTEM_TYPE, CRONTAB, EXEC_TIME)
+        INSERT
+          INTO dc_server_setting
+               (host, service_name, post, application_server, user_name, password, db_username, db_password,
+                subject, system_type, crontab, exec_time)
         VALUES
-	        (#{host}, #{serviceName}, #{post}, #{applicationServer}, #{userName}, #{password}, #{dbUsername},
-	         #{dbPassword}, #{subject}, #{systemType}, #{crontab}, #{execTime});
+	            (#{host}, #{serviceName}, #{post}, #{applicationServer}, #{userName}, #{password}, #{dbUsername},
+	             #{dbPassword}, #{subject}, #{systemType}, #{crontab}, #{execTime});
     </insert>
 
     <select id="countServer" resultType="Integer">
         SELECT
-	      count(0)
-        FROM
-            (
+	           count(0)
+          FROM
+              (
                 SELECT
-                        p.id,
-                        q.HOST host,
-                        q.SERVICE_NAME serviceName,
-                        q.POST post,
-                        q.APPLICATION_SERVER applicationServer,
-                        q.USER_NAME userName,
-                        q.PASSWORD  password,
-                        q.DB_USERNAME dbUsername,
-                        q.DB_PASSWORD dbPassword,
-                        p.SYS_VERSION sysVersion,
-                        q.SUBJECT subject,
-                        q.SYSTEM_TYPE systemType,
-                        q.CRONTAB crontab,
-                        q.CREATION_DATE createTime,
-                        q.EXEC_TIME execTime,
-                        q.CRONTAB cron,
-                        'name',
-                        'group',
-                        q.CLASS_PATH classPath
-                FROM
+                            p.id,
+                            q.host host,
+                            q.service_name serviceName,
+                            q.post post,
+                            q.application_server applicationServer,
+                            q.user_name userName,
+                            q.password  password,
+                            q.db_username dbUsername,
+                            q.db_password dbPassword,
+                            p.sys_version sysVersion,
+                            q.subject subject,
+                            q.system_type systemType,
+                            q.crontab crontab,
+                            q.creation_date createTime,
+                            q.exec_time execTime,
+                            q.crontab cron,
+                            'name',
+                            'group',
+                            q.class_path classPath
+                   FROM
                         dc_server_setting q
-                LEFT JOIN dc_distribute_setting p ON q. HOST = p.IP
-                AND q.SYSTEM_TYPE = p.SYSTEM_TYPE
-                WHERE
-                        q.IS_DELETE = 0
-                AND
+             LEFT JOIN dc_distribute_setting p ON q. HOST = p.IP
+                   AND q.system_type = p.system_type
+                 WHERE
+                        q.is_delete = 0
+                   AND
                         p.is_delete = 0
             ) LEVEL1
     </select>
 
     <select id="listServer" resultType="com.alibaba.fastjson.JSONObject">
         SELECT
-                p.id,
-                q.HOST host,
-                q.SERVICE_NAME serviceName,
-                q.POST post,
-                q.APPLICATION_SERVER applicationServer,
-                q.USER_NAME userName,
-                q.PASSWORD  password,
-                q.DB_USERNAME dbUsername,
-                q.DB_PASSWORD dbPassword,
-                p.SYS_VERSION sysVersion,
-                q.SUBJECT subject,
-                q.SYSTEM_TYPE systemType,
-                q.CRONTAB crontab,
-                q.CREATION_DATE createTime,
-                q.EXEC_TIME execTime,
-                q.CRONTAB cron,
-                'group',
-                q.CLASS_PATH classPath
-        FROM
-                dc_server_setting q
-        LEFT JOIN dc_distribute_setting p ON q. HOST = p.IP
-        AND q.SYSTEM_TYPE = p.SYSTEM_TYPE
-        WHERE
-                q.IS_DELETE = 0
-        AND
-                p.is_delete = 0
+                    p.id,
+                    q.host host,
+                    q.service_name serviceName,
+                    q.post post,
+                    q.application_server applicationServer,
+                    q.user_name userName,
+                    q.password  password,
+                    q.db_username dbUsername,
+                    q.db_password dbPassword,
+                    p.sys_version sysVersion,
+                    q.subject subject,
+                    q.system_type systemType,
+                    q.crontab crontab,
+                    q.creation_date createTime,
+                    q.exec_time execTime,
+                    q.crontab cron,
+                    'group',
+                    q.class_path classPath
+           FROM
+                  dc_server_setting q
+      LEFT JOIN  dc_distribute_setting p ON q. HOST = p.IP
+             AND  q.system_type = p.system_type
+           WHERE
+                  q.is_delete = 0
+             AND
+                  p.is_delete = 0
         <if test="host != '' and host != null ">
             AND host LIKE "%"#{host}"%"
         </if>
@@ -88,104 +89,104 @@
 
     <select id="equalsServer" resultType="com.alibaba.fastjson.JSONObject">
         SELECT
-        p.id,
-        q.HOST host,
-        q.SERVICE_NAME serviceName,
-        q.POST post,
-        q.APPLICATION_SERVER applicationServer,
-        q.USER_NAME userName,
-        q.PASSWORD  password,
-        q.DB_USERNAME dbUsername,
-        q.DB_PASSWORD dbPassword,
-        p.SYS_VERSION sysVersion,
-        q.SUBJECT subject,
-        q.SYSTEM_TYPE systemType,
-        q.CRONTAB crontab,
-        q.CREATION_DATE createTime,
-        q.EXEC_TIME execTime,
-        q.CRONTAB cron,
-        'group',
-        q.CLASS_PATH classPath
-        FROM
-        dc_server_setting q
-        LEFT JOIN dc_distribute_setting p ON q. HOST = p.IP
-        AND q.SYSTEM_TYPE = p.SYSTEM_TYPE
-        WHERE
-            q.IS_DELETE = 0
-        AND
-            p.is_delete = 0
-        AND p.id = #{id}
+                    p.id,
+                    q.host host,
+                    q.service_name serviceName,
+                    q.post post,
+                    q.application_server applicationServer,
+                    q.user_name userName,
+                    q.password  password,
+                    q.db_username dbUsername,
+                    q.db_password dbPassword,
+                    p.sys_version sysVersion,
+                    q.subject subject,
+                    q.system_type systemType,
+                    q.crontab crontab,
+                    q.creation_date createTime,
+                    q.exec_time execTime,
+                    q.crontab cron,
+                    'group',
+                    q.class_path classPath
+           FROM
+                   dc_server_setting q
+      LEFT JOIN   dc_distribute_setting p ON q. HOST = p.IP
+             AND  q.system_type = p.system_type
+           WHERE
+                  q.is_delete = 0
+             AND
+                  p.is_delete = 0
+             AND  p.id = #{id}
     </select>
 
     <select id="getAllJobInfo" resultType="com.alibaba.fastjson.JSONObject">
         SELECT
-        p.id,
-        q.HOST host,
-        q.SYSTEM_TYPE type,
-        q.SERVICE_NAME serviceName,
-        q.POST post,
-        q.APPLICATION_SERVER applicationServer,
-        q.USER_NAME userName,
-        q.PASSWORD  password,
-        q.DB_USERNAME dbUsername,
-        q.DB_PASSWORD dbPassword,
-        p.SYS_VERSION sysVersion,
-        q.SUBJECT subject,
-        q.SYSTEM_TYPE systemType,
-        q.CRONTAB crontab,
-        q.CREATION_DATE createTime,
-        q.EXEC_TIME execTime,
-        'group',
-        q.CLASS_PATH classPath
-        FROM
-        dc_server_setting q
-        LEFT JOIN dc_distribute_setting p ON q. HOST = p.IP
-        AND q.SYSTEM_TYPE = p.SYSTEM_TYPE
-        WHERE
-          q.IS_DELETE = 0
-        AND
-          p.is_delete = 0
-        AND
-          q.CRONTAB = 1
+                p.id,
+                q.host host,
+                q.system_type type,
+                q.service_name serviceName,
+                q.post post,
+                q.application_server applicationServer,
+                q.user_name userName,
+                q.password  password,
+                q.db_username dbUsername,
+                q.db_password dbPassword,
+                p.sys_version sysVersion,
+                q.subject subject,
+                q.system_type systemType,
+                q.crontab crontab,
+                q.creation_date createTime,
+                q.exec_time execTime,
+                'group',
+                q.class_path classPath
+          FROM
+                dc_server_setting q
+    LEFT JOIN dc_distribute_setting p ON q. HOST = p.IP
+           AND q.system_type = p.system_type
+         WHERE
+                q.is_delete = 0
+           AND
+                p.is_delete = 0
+           AND
+                q.CRONTAB = 1
         <if test="host != '' and host != null ">
-            AND host LIKE "%"#{host}"%"
+           AND host LIKE "%"#{host}"%"
         </if>
 
     </select>
 
     <!--适用版本字段不可修改 -->
     <update id="updateServer" parameterType="com.alibaba.fastjson.JSONObject">
-        UPDATE DC_SERVER_SETTING SSH
-        LEFT JOIN
-               DC_DISTRIBUTE_SETTING DDS ON SSH. HOST = DDS.IP
-        AND SSH.SYSTEM_TYPE = DDS.SYSTEM_TYPE
-        SET
-            SSH.HOST                =  #{host},
-            SSH.SERVICE_NAME        =  #{serviceName},
-            SSH.POST                =  #{post},
-            SSH.APPLICATION_SERVER  =  #{applicationServer},
-            SSH.USER_NAME           =  #{userName},
-            SSH.DB_USERNAME         =  #{dbUsername},
-            <!-- DDS.SYS_VERSION         =  #{sysVersion},-->
-            SSH.SUBJECT             =  #{subject},
-            SSH.SYSTEM_TYPE         =  #{systemType},
-            SSH.CRONTAB             =  #{crontab},
-            SSH.PASSWORD            =  #{password},
-            SSH.DB_PASSWORD         =  #{dbPassword},
-            SSH.EXEC_TIME           =  #{execTime}
-        WHERE DDS.ID = #{id}
+        UPDATE dc_server_setting ssh
+     LEFT JOIN
+                dc_distribute_setting dds ON ssh. HOST = dds.IP
+           AND ssh.system_type = dds.system_type
+           SET
+                ssh.host                =  #{host},
+                ssh.service_name        =  #{serviceName},
+                ssh.post                =  #{post},
+                ssh.application_server  =  #{applicationServer},
+                ssh.user_name           =  #{userName},
+                ssh.db_username         =  #{dbUsername},
+                <!-- DDS.SYS_VERSION         =  #{sysVersion},-->
+                ssh.subject             =  #{subject},
+                ssh.system_type         =  #{systemType},
+                ssh.crontab             =  #{crontab},
+                ssh.password            =  #{password},
+                ssh.db_password         =  #{dbPassword},
+                ssh.exec_time           =  #{execTime}
+        WHERE   dds.id = #{id}
     </update>
 
     <update id="deleteServer" parameterType="com.alibaba.fastjson.JSONObject">
-        UPDATE DC_SERVER_SETTING SSH
-        SET    SSH.IS_DELETE = '1'
-        WHERE  SSH.ID = #{id};
+        UPDATE   dc_server_setting ssh
+           SET   ssh.is_delete = '1'
+         WHERE   ssh.id = #{id};
 
-        UPDATE DC_DISTRIBUTE_SETTING DDS
-        SET    DDS.IS_DELETE = '1'
-        WHERE  DDS.IP = (SELECT  SSH.HOST
-                          FROM DC_SERVER_SETTING SSH
-                          WHERE  SSH.ID = #{id});
+        UPDATE    dc_distribute_setting dds
+           SET    dds.is_delete = '1'
+        WHERE     dds.IP = (SELECT  ssh.host
+                              FROM   dc_server_setting ssh
+                             WHERE   ssh.id = #{id});
     </update>
 
 </mapper>

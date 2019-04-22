@@ -4,73 +4,72 @@
 <mapper namespace="com.autossh.dailyinspection.dao.ScriptConfigDao">
 
     <insert id="addScript" parameterType="com.alibaba.fastjson.JSONObject">
-        INSERT INTO DC_SHELL_SETTING
-            (SHELL_NAME,SHELL_DESC,SYSTEM_TYPE,SYSTEM_VERSION)
+        INSERT
+          INTO dc_shell_setting
+               (shell_name,shell_desc,system_type,system_version)
         VALUES
-            (#{shellName},#{shellDesc},#{systemType},#{systemVersion})
+               (#{shellName},#{shellDesc},#{systemType},#{systemVersion})
+
+
     </insert>
 
     <select id="countScript" resultType="Integer">
         SELECT count(0)
-        FROM DC_SHELL_SETTING SSH
-        WHERE SSH.IS_DELETE = '0'
+          FROM dc_shell_setting ssh
+         WHERE ssh.is_delete = '0'
     </select>
 
     <select id="listScript" resultType="com.alibaba.fastjson.JSONObject">
         SELECT
-            SSH.id id,
-            SSH.SHELL_NAME shellName,
-            SSH.SHELL_DESC shellDesc,
-            SSH.SYSTEM_TYPE systemType,
-            SSH.SYSTEM_VERSION systemVersion,
-            date_format(SSH.CREATE_TIME, '%Y-%m-%d %T') createTime
-        FROM DC_SHELL_SETTING SSH
-        WHERE SSH.IS_DELETE = '0'
-        <if test="shellDesc != '' and shellDesc != null ">
-            AND SSH.SHELL_DESC LIKE "%"#{shellDesc}"%"
+                ssh.id id,
+                ssh.shell_name shellName,
+                ssh.shell_desc shellDesc,
+                ssh.system_type systemType,
+                ssh.system_version systemVersion,
+                date_format(ssh.create_time, '%Y-%m-%d %T') createTime
+          FROM  dc_shell_setting ssh
+         WHERE ssh.is_delete = '0'
+         <if test="shellDesc != '' and shellDesc != null ">
+           AND ssh.shell_desc LIKE "%"#{shellDesc}"%"
         </if>
         LIMIT #{offSet}, #{pageRow}
     </select>
 
     <select id="getAllServerType" resultType="com.alibaba.fastjson.JSONObject">
-        SELECT
-        id          serverId,
-        server_type serverType
+      SELECT id serverId,
+	          server_type serverType
         FROM dc_config
     </select>
 
     <select id="getAllSystemType" resultType="com.alibaba.fastjson.JSONObject">
         SELECT
-	        @rownum :=@rownum + 1 AS serverId,
-	        SYSTEM_VERSION serverType
-        FROM
-	    (
-      		SELECT DISTINCT
-			  CONCAT(
-				dss.SYSTEM_TYPE,
-				"_",
-				dss.SYSTEM_VERSION
-			  ) SYSTEM_VERSION
-		    FROM
-			  dc_shell_setting dss
-	    ) L1,
+	            @rownum :=@rownum + 1 AS serverId,
+	            system_version serverType
+          FROM(
+      		    SELECT DISTINCT
+                        CONCAT(
+                        dss.system_type,
+                        "_",
+                        dss.system_version ) system_version
+		          FROM
+			            dc_shell_setting dss) L1,
 	    (SELECT @rownum := 0) r
     </select>
 
     <update id="updateScript" parameterType="com.alibaba.fastjson.JSONObject">
-        UPDATE DC_SHELL_SETTING SSH
-        SET
-            SSH.SHELL_NAME = #{shellName},
-            SSH.SHELL_DESC = #{shellDesc},
-            SSH.SYSTEM_TYPE = #{systemType},
-            SYSTEM_VERSION = #{systemVersion}
-        WHERE SSH.ID = #{id}
+        UPDATE dc_shell_setting ssh
+           SET
+                ssh.shell_name = #{shellName},
+                ssh.shell_desc = #{shellDesc},
+                ssh.system_type = #{systemType},
+                system_version = #{systemVersion}
+         WHERE ssh.id = #{id}
     </update>
 
     <update id="deleteScirpt" parameterType="com.alibaba.fastjson.JSONObject">
-        UPDATE DC_SHELL_SETTING SSH
-        SET SSH.IS_DELETE = '1'
-        WHERE SSH.ID = #{id}
+        UPDATE dc_shell_setting ssh
+           SET ssh.is_delete = '1'
+         WHERE ssh.id = #{id}
     </update>
 
 </mapper>

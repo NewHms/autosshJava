@@ -5,8 +5,8 @@
 
     <select id="countUser" resultType="Integer">
         SELECT count(0)
-        FROM sys_user u
-        WHERE u.delete_status = '1'
+          FROM sys_user u
+         WHERE u.delete_status = '1'
     </select>
 
     <resultMap id="userMap" type="com.autossh.util.model.One2Many">
@@ -25,22 +25,22 @@
     </resultMap>
     <select id="listUser" resultMap="userMap">
         SELECT
-            u.*,
-            r.role_name                            roleName,
-            CONCAT(p.menu_name, p.permission_name) permissionName
-        FROM (
+                u.*,
+                r.role_name                            roleName,
+                CONCAT(p.menu_name, p.permission_name) permissionName
+           FROM (
                  SELECT
-                     id                                      userId,
-                     username                                username,
-                     nickname                                nickname,
-                     role_id                                 roleId,
-                     delete_status                           deleteStatus,
-                     DATE_FORMAT(create_time, '%Y.%m.%d %T') createTime,
-                     DATE_FORMAT(update_time, '%Y.%m.%d %T') updateTime
-                 FROM sys_user
-                 WHERE delete_status = '1'
-                 ORDER BY id
-                 LIMIT #{offSet}, #{pageRow}
+                         id                                      userId,
+                         username                                username,
+                         nickname                                nickname,
+                         role_id                                 roleId,
+                         delete_status                           deleteStatus,
+                         DATE_FORMAT(create_time, '%Y.%m.%d %T') createTime,
+                         DATE_FORMAT(update_time, '%Y.%m.%d %T') updateTime
+                    FROM sys_user
+                   WHERE delete_status = '1'
+                ORDER BY id
+                LIMIT #{offSet}, #{pageRow}
              ) u
             LEFT JOIN sys_role r ON r.id = u.roleId
             LEFT JOIN sys_role_permission rp ON rp.role_id = r.id
@@ -51,26 +51,27 @@
 
     <select id="getAllRoles" resultType="com.alibaba.fastjson.JSONObject">
         SELECT
-            id        roleId,
-            role_name roleName
-        FROM sys_role
-        WHERE delete_status='1'
+                id        roleId,
+                role_name roleName
+          FROM sys_role
+         WHERE delete_status='1'
     </select>
 
     <insert id="addUser" useGeneratedKeys="true" keyProperty="userId">
-        INSERT INTO sys_user
-        (username, password, nickname, role_id) VALUES
-            (#{username}, #{password}, #{nickname}, #{roleId})
+        INSERT
+          INTO sys_user
+               (username, password, nickname, role_id)
+        VALUES
+               (#{username}, #{password}, #{nickname}, #{roleId})
     </insert>
 
     <update id="updateUser">
         UPDATE sys_user
-        SET
-        nickname = #{nickname}
+           SET
+                nickname = #{nickname}
         <if test="password !='' and password !=null">
             , password = #{password}
         </if>
-
         , role_id = #{roleId}
         , delete_status = #{deleteStatus}
         WHERE id = #{userId} and id != 10001
@@ -93,20 +94,20 @@
     </resultMap>
     <select id="listRole" resultMap="roleMap">
         SELECT
-            r.id              roleId,
-            r.role_name       roleName,
-            u.id              userId,
-            u.nickname        nickname,
-            p.id              permissionId,
-            p.menu_code       menuCode,
-            p.menu_name       menuName,
-            p.permission_name permissionName
-        FROM sys_role r
-            LEFT JOIN sys_user u ON r.id = u.role_id AND u.delete_status = '1'
-            LEFT JOIN sys_role_permission rp ON r.id = rp.role_id AND rp.delete_status = '1'
-            LEFT JOIN sys_permission p ON rp.permission_id = p.id
-        WHERE r.delete_status = '1'
-        ORDER BY r.id, p.id
+                r.id              roleId,
+                r.role_name       roleName,
+                u.id              userId,
+                u.nickname        nickname,
+                p.id              permissionId,
+                p.menu_code       menuCode,
+                p.menu_name       menuName,
+                p.permission_name permissionName
+           FROM sys_role r
+      LEFT JOIN sys_user u ON r.id = u.role_id AND u.delete_status = '1'
+      LEFT JOIN sys_role_permission rp ON r.id = rp.role_id AND rp.delete_status = '1'
+      LEFT JOIN sys_permission p ON rp.permission_id = p.id
+          WHERE r.delete_status = '1'
+       ORDER BY r.id, p.id
     </select>
     <resultMap id="permissionMap" type="com.autossh.util.model.One2Many">
         <id column="menuName" property="menuName"/>
@@ -118,17 +119,18 @@
     </resultMap>
     <select id="listAllPermission" resultMap="permissionMap">
         SELECT
-            p.id                  id,
-            p.menu_name           menuName,
-            p.permission_name     permissionName,
-            p.required_permission requiredPerm
-        FROM sys_permission p;
+                p.id                  id,
+                p.menu_name           menuName,
+                p.permission_name     permissionName,
+                p.required_permission requiredPerm
+          FROM sys_permission p;
     </select>
 
     <insert id="insertRole" useGeneratedKeys="true" keyProperty="roleId">
-        INSERT INTO sys_role
-        (role_name)
-        VALUES (#{roleName})
+        INSERT
+          INTO sys_role
+               (role_name)
+       VALUES (#{roleName})
     </insert>
 
     <insert id="insertRolePermission">
@@ -151,51 +153,51 @@
     </resultMap>
     <select id="getRoleAllInfo" resultMap="aRole">
         SELECT
-            r.id        roleId,
-            r.role_name roleName,
-            u.id        userId,
-            p.id        permissionId
-        FROM sys_role r
-            LEFT JOIN sys_user u ON r.id = u.role_id AND u.delete_status = '1'
-            LEFT JOIN sys_role_permission rp ON r.id = rp.role_id AND rp.delete_status = '1'
-            LEFT JOIN sys_permission p ON rp.permission_id = p.id
-        WHERE r.id = #{roleId}
+                r.id        roleId,
+                r.role_name roleName,
+                u.id        userId,
+                p.id        permissionId
+          FROM sys_role r
+     LEFT JOIN sys_user u ON r.id = u.role_id AND u.delete_status = '1'
+     LEFT JOIN sys_role_permission rp ON r.id = rp.role_id AND rp.delete_status = '1'
+     LEFT JOIN sys_permission p ON rp.permission_id = p.id
+         WHERE r.id = #{roleId}
     </select>
 
     <update id="removeRole">
         UPDATE sys_role
-        SET
-            delete_status = '2'
-        WHERE id = #{roleId} and id !=1
+           SET
+               delete_status = '2'
+         WHERE id = #{roleId} and id !=1
     </update>
     <update id="removeRoleAllPermission">
         UPDATE sys_role_permission
-        SET
-            delete_status = '2'
-        WHERE role_id = #{roleId}
+           SET
+                delete_status = '2'
+         WHERE role_id = #{roleId}
     </update>
 
     <update id="removeOldPermission">
         UPDATE sys_role_permission
-        SET
-        delete_status = '2'
-        WHERE role_id = #{roleId}
-        AND permission_id in (
-        <foreach collection="permissions" item="item" index="index" separator=",">
-            #{item}
-        </foreach>
+           SET
+                delete_status = '2'
+         WHERE role_id = #{roleId}
+           AND permission_id in (
+            <foreach collection="permissions" item="item" index="index" separator=",">
+               #{item}
+            </foreach>
         )
     </update>
     <update id="updateRoleName">
         UPDATE sys_role
-        SET
-            role_name = #{roleName}
-        WHERE id = #{roleId}
+           SET
+                role_name = #{roleName}
+         WHERE id = #{roleId}
     </update>
     <select id="queryExistUsername" resultType="int">
-        select count(0)
-         from sys_user
+        SELECT count(0)
+          FROM sys_user
          WHERE username=#{username}
-         AND delete_status='1';
+           AND delete_status='1';
     </select>
 </mapper>

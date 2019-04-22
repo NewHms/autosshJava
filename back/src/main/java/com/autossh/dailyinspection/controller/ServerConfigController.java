@@ -8,6 +8,7 @@ import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.quartz.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
@@ -140,14 +141,21 @@ public class ServerConfigController {
      */
     @RequiresPermissions("scriptConfig:delete")
     @GetMapping("/killRunJob")
-    public void killRunJob(){
+    public void killRunJob(Scheduler scheduler){
         try {
 
             List<JobExecutionContext> jobContexts = scheduler.getCurrentlyExecutingJobs();
             for (JobExecutionContext context : jobContexts) {
                 SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");//设置日期格式
-                String startTime = df.format(new Date());// new Date()为获取当前系统时间
-                scheduler.interrupt(context.getJobDetail().getKey());
+                SimpleDateFormat df1 = new SimpleDateFormat("ss");//设置日期格式
+                long diffTime = (System.currentTimeMillis() - context.getScheduledFireTime().getTime())/1000;
+                //String startTime = df.format(new Date());// new Date()为获取当前系统时间
+                if(diffTime > 10){
+                    scheduler.interrupt(context.getJobDetail().getKey());
+                }
+                else {
+                    System.out.println("pass");
+                }
             }
 
         }catch (Exception e){

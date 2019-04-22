@@ -217,10 +217,15 @@ public class QuartzConfig {
     public void getAllRunJob(Scheduler scheduler) throws SchedulerException {
         List<JobExecutionContext> jobContexts = scheduler.getCurrentlyExecutingJobs();
         for (JobExecutionContext context : jobContexts) {
-            System.out.println(context.getFireTime());
+            //System.out.println(context.getFireTime());
+            SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");//设置日期格式
+            SimpleDateFormat df1 = new SimpleDateFormat("ss");//设置日期格式
             System.out.println(context.getFireInstanceId());
             System.out.println(context.getTrigger().getKey());
-            System.out.println(context.getScheduledFireTime());
+            System.out.println(context.getScheduledFireTime().getTime());
+            System.out.println(df.format(context.getScheduledFireTime()));
+            System.out.println((System.currentTimeMillis() - context.getScheduledFireTime().getTime())/1000);
+            System.out.println(df.format(new Date()));
 
         }
     }

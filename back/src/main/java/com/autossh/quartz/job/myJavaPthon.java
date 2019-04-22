@@ -71,7 +71,7 @@ public class myJavaPthon implements InterruptableJob {
 
                 //Thread.sleep(100*1000);
                 /*调用python，其中字符串数组对应的是python，python文件路径，向python传递的参数*/
-                String[] strs_kill = new String[]{"python","D:\\workSpace\\python\\daily_kill_process.py"};
+                String[] strs_kill = new String[]{"python","D:\\workSpace\\python\\daily_kill_process.py", dailyIp, dailyType};
 
                 /*Runtime类封装了运行时的环境。每个 Java 应用程序都有一个 Runtime 类实例,
                   使应用程序能够与其运行的环境相连接。
@@ -99,7 +99,7 @@ public class myJavaPthon implements InterruptableJob {
             System.out.println("python传来的结果：");
             //打印返回结果
             System.out.println(result);
-            System.out.println("si");
+            //System.out.println("si");
         }
     }
 }

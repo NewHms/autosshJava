@@ -5,52 +5,53 @@
 
     <select id="countLog" resultType="Integer">
         SELECT
-	      count(0)
-        FROM
-            (
+	            count(0)
+          FROM(
                  SELECT
-                    dc_log.id,
-                    dc_log.ip,
-                    dc_log.USER USER,
-                    dc_log.shell_name shellName,
-                    dc_log.exec_result execResult,
-                    dc_log.exec_status execStatus,
-                    dc_log.exec_time execTime,
-                    dc_log.exec_num execNum,
-                    dc_log.type
+                        dc_log.id,
+                        dc_log.ip,
+                        dc_log.user USER,
+                        dc_log.shell_name shellName,
+                        dc_log.exec_result execResult,
+                        dc_log.exec_status execStatus,
+                        dc_log.exec_time execTime,
+                        dc_log.exec_num execNum,
+                        dc_log.type
                     FROM
-                    dc_daily_log dc_log
-                    WHERE IS_DELETE = 0
-            ) LEVEL1
+                        dc_daily_log dc_log
+                   WHERE IS_DELETE = 0
+                     AND exec_result != "" ) LEVEL1
     </select>
 
     <select id="listLog" resultType="com.alibaba.fastjson.JSONObject">
         SELECT
-        dc_log.id,
-        dc_log.ip,
-        dc_log.USER USER,
-        dc_log.shell_name shellName,
-        dc_log.exec_result execResult,
-        dc_log.exec_status execStatus,
-        dc_log.exec_time execTime,
-        dc_log.exec_num execNum,
-        dc_log.type
-        FROM
-        dc_daily_log dc_log
-        WHERE IS_DELETE = 0
-        <if test="IP != '' and IP != null ">
-        AND ip LIKE "%"#{IP}"%"
-        </if>
-        ORDER BY
-        exec_status DESC,
-        exec_num DESC
+                dc_log.id,
+                dc_log.ip,
+                dc_log.user USER,
+                dc_log.shell_name shellName,
+                dc_log.exec_result execResult,
+                dc_log.exec_status execStatus,
+                date_format(dc_log.exec_time, '%Y-%m-%d %T') execTime,
+                dc_log.exec_num execNum,
+                dc_log.type
+          FROM
+                dc_daily_log dc_log
+         WHERE IS_DELETE = 0
+           AND exec_result != ""
+           <if test="IP != '' and IP != null ">
+           AND ip LIKE "%"#{IP}"%"
+           </if>
+           ORDER BY
+                    exec_status DESC,
+                    dc_log.exec_time DESC,
+                    exec_num    DESC
         LIMIT #{offSet}, #{pageRow}
     </select>
 
     <update id="deleteLog" parameterType="com.alibaba.fastjson.JSONObject">
-        UPDATE dc_daily_log SSH
-        SET    SSH.IS_DELETE = '1'
-        WHERE  SSH.ID = #{id};
+        UPDATE    dc_daily_log ddl
+           SET    ddl.is_delete = '1'
+         WHERE    ddl.id= #{id};
     </update>
 
 </mapper>

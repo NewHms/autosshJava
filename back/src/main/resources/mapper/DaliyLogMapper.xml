@@ -43,6 +43,7 @@
            </if>
            ORDER BY
                     exec_status DESC,
+                    dc_log.exec_time DESC,
                     exec_num    DESC
         LIMIT #{offSet}, #{pageRow}
     </select>

@@ -12,7 +12,9 @@
                         dc_log.ip,
                         dc_log.user USER,
                         dc_log.shell_name shellName,
+                        dc_log.shell_desc shellDesc,
                         dc_log.exec_result execResult,
+                        dc_log.result_status resultStatus,
                         dc_log.exec_status execStatus,
                         dc_log.exec_time execTime,
                         dc_log.exec_num execNum,
@@ -20,7 +22,14 @@
                     FROM
                         dc_daily_log dc_log
                    WHERE IS_DELETE = 0
-                     AND exec_result != "" ) LEVEL1
+                     AND exec_result != ""
+                    <if test="IP != '' and IP != null ">
+                      AND ip LIKE "%"#{IP}"%"
+                    </if>
+                    <if test="resultStatus != '' and resultStatus != null ">
+                      AND substring_index(substring_index(dc_log.result_status,"_",-1),"_",1) = #{resultStatus}
+                    </if>
+                     ) LEVEL1
     </select>
 
     <select id="listLog" resultType="com.alibaba.fastjson.JSONObject">
@@ -29,7 +38,9 @@
                 dc_log.ip,
                 dc_log.user USER,
                 dc_log.shell_name shellName,
+                dc_log.shell_desc shellDesc,
                 dc_log.exec_result execResult,
+                substring_index(substring_index(dc_log.result_status,"_",-1),"_",1) resultStatus,
                 dc_log.exec_status execStatus,
                 date_format(dc_log.exec_time, '%Y-%m-%d %T') execTime,
                 dc_log.exec_num execNum,
@@ -41,8 +52,11 @@
            <if test="IP != '' and IP != null ">
            AND ip LIKE "%"#{IP}"%"
            </if>
+           <if test="resultStatus != '' and resultStatus != null ">
+           AND substring_index(substring_index(dc_log.result_status,"_",-1),"_",1) = #{resultStatus}
+           </if>
            ORDER BY
-                    exec_status DESC,
+                    result_status DESC,
                     dc_log.exec_time DESC,
                     exec_num    DESC
         LIMIT #{offSet}, #{pageRow}

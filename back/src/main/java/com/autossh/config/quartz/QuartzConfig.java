@@ -87,11 +87,12 @@ public class QuartzConfig {
         for(int i = 0 ;i < json.size(); i++) {
             String jobHost = json.get(i).getString("host");
             String jobType = json.get(i).getString("type");
+            String jobTimeOut = json.get(i).getString("timeOut");
             String jobName = json.get(i).getString("subject");
             String jobGroup = json.get(i).getString("group");
             String cron = json.get(i).getString("execTime");
             String className = json.get(i).getString("classPath");
-            addCommonCronJob(jobType, jobHost, jobName, jobGroup, cron, scheduler, className);
+            addCommonCronJob(jobTimeOut, jobType, jobHost, jobName, jobGroup, cron, scheduler, className);
         }
         }catch (Exception e ){
             e.printStackTrace();
@@ -106,7 +107,7 @@ public class QuartzConfig {
      *  @param scheduler
      *  @param className
      */
-    public void addCommonCronJob(String jobType, String jobHost, String jobName, String jobGroup, String cron, Scheduler scheduler, String className) {
+    public void addCommonCronJob(String jobTimeOut, String jobType, String jobHost, String jobName, String jobGroup, String cron, Scheduler scheduler, String className) {
         try {
             TriggerKey triggerKey = TriggerKey.triggerKey(jobName, jobGroup);
             //任务触发
@@ -120,6 +121,7 @@ public class QuartzConfig {
                         .withIdentity(jobName, jobGroup)
                         .build();
                 jobDetail.getJobDataMap().put("jobHost", jobHost);
+                jobDetail.getJobDataMap().put("jobTimeOut", jobTimeOut);
                 jobDetail.getJobDataMap().put("jobType", jobType);
                 jobDetail.getJobDataMap().put("jobName", jobName);
                 jobDetail.getJobDataMap().put("jobGroup", jobGroup);
@@ -141,7 +143,7 @@ public class QuartzConfig {
                 scheduler.scheduleJob(jobDetail, trigger);
             } else {
                 scheduler.deleteJob(JobKey.jobKey(jobName, jobGroup));
-                addCommonCronJob(jobType, jobHost, jobName, jobGroup, cron, scheduler, className);
+                addCommonCronJob(jobTimeOut, jobType, jobHost, jobName, jobGroup, cron, scheduler, className);
             }
         } catch (ClassNotFoundException e) {
             e.printStackTrace();

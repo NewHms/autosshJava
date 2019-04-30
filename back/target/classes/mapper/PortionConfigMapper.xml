@@ -6,9 +6,16 @@
     <insert id="addPortion" parameterType="com.alibaba.fastjson.JSONObject">
         INSERT
           INTO dc_distribute_setting
-               (ip,host_name,sys_version,system_type,exec_time)
+               (ip,host_name,sys_version,system_type,exec_time
+               <if test="timeOut != '' and timeOut != null ">
+               ,time_out
+               </if>
+               )
         VALUES
-               (#{IP},#{hostName},#{sysVersion},#{systemType},#{execTime})
+               (#{IP},#{hostName},#{sysVersion},#{systemType},#{execTime}
+                <if test="timeOut != '' and timeOut != null ">
+                ,#{timeOut}
+                </if>)
     </insert>
 
     <select id="countPortion" resultType="Integer">
@@ -22,6 +29,7 @@
                   ssh.id id,
                   ssh.IP IP,
                   ssh.host_name hostName,
+                  ssh.time_out timeOut,
                   ssh.sys_version sysVersion,
                   ssh.system_type systemType,
                   ssh.exec_time execTime,
@@ -38,6 +46,7 @@
         SELECT
                   ssh.ip IP,
                   ssh.sys_version sysVersion,
+                  ssh.time_out    timeOut,
                   ssh.exec_time   execTime,
                   ssh.system_type systemType
           FROM
@@ -69,6 +78,9 @@
                 ssh.ip          = #{IP},
                 ssh.host_name   = #{hostName},
                 ssh.sys_version = #{sysVersion},
+                <if test="timeOut != '' and timeOut != null ">
+                ssh.time_out    = #{timeOut},
+                </if>
                 ssh.system_type = #{systemType},
                 exec_time       = #{execTime}
          WHERE ssh.id = #{id}

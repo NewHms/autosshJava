@@ -7,10 +7,10 @@
         INSERT
           INTO dc_server_setting
                (host, service_name, post, application_server, user_name, password, db_username, db_password,
-                subject, system_type, crontab, exec_time)
+                subject, system_type, crontab, exec_time, time_out)
         VALUES
 	            (#{host}, #{serviceName}, #{post}, #{applicationServer}, #{userName}, #{password}, #{dbUsername},
-	             #{dbPassword}, #{subject}, #{systemType}, #{crontab}, #{execTime});
+	             #{dbPassword}, #{subject}, #{systemType}, #{crontab}, #{execTime}, #{timeOut});
     </insert>
 
     <select id="countServer" resultType="Integer">
@@ -34,6 +34,7 @@
                             q.crontab crontab,
                             q.creation_date createTime,
                             q.exec_time execTime,
+                            q.time_out timeOut,
                             q.crontab cron,
                             'name',
                             'group',
@@ -66,6 +67,7 @@
                     q.crontab crontab,
                     q.creation_date createTime,
                     q.exec_time execTime,
+                    q.time_out  timeOut,
                     q.crontab cron,
                     'group',
                     q.class_path classPath
@@ -104,6 +106,7 @@
                     q.crontab crontab,
                     q.creation_date createTime,
                     q.exec_time execTime,
+                    q.time_out  timeOut,
                     q.crontab cron,
                     'group',
                     q.class_path classPath
@@ -136,6 +139,7 @@
                 q.crontab crontab,
                 q.creation_date createTime,
                 q.exec_time execTime,
+                q.time_out  timeOut,
                 'group',
                 q.class_path classPath
           FROM
@@ -173,7 +177,8 @@
                 ssh.crontab             =  #{crontab},
                 ssh.password            =  #{password},
                 ssh.db_password         =  #{dbPassword},
-                ssh.exec_time           =  #{execTime}
+                ssh.exec_time           =  #{execTime},
+                ssh.time_out           =  #{timeOut}
         WHERE   dds.id = #{id}
     </update>
 

@@ -3,10 +3,6 @@
   <component name="ChangeListManager">
     <list default="true" id="7de84ba9-36ff-40d9-ace8-e2e09e8c96bc" name="Default" comment="">
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/example.iml" afterPath="$PROJECT_DIR$/example.iml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/logs/2019-04/autossh-2019-04-30.log" afterPath="$PROJECT_DIR$/logs/2019-04/autossh-2019-04-30.log" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/resources/mapper/DaliyLogMapper.xml" afterPath="$PROJECT_DIR$/src/main/resources/mapper/DaliyLogMapper.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/resources/mapper/ScriptConfigMapper.xml" afterPath="$PROJECT_DIR$/src/main/resources/mapper/ScriptConfigMapper.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/classes/mapper/DaliyLogMapper.xml" afterPath="$PROJECT_DIR$/target/classes/mapper/DaliyLogMapper.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/classes/mapper/ScriptConfigMapper.xml" afterPath="$PROJECT_DIR$/target/classes/mapper/ScriptConfigMapper.xml" />
     </list>
@@ -599,7 +595,7 @@
       <workItem from="1555657878209" duration="85713000" />
       <workItem from="1556594322220" duration="12966000" />
       <workItem from="1557127775686" duration="11267000" />
-      <workItem from="1557232873547" duration="25000" />
+      <workItem from="1557232873547" duration="95000" />
     </task>
     <task id="LOCAL-00001" summary="新增日检服务器配置">
       <created>1553250279652</created>
@@ -720,7 +716,14 @@
       <option name="project" value="LOCAL" />
       <updated>1555929673775</updated>
     </task>
-    <option name="localTasksCounter" value="18" />
+    <task id="LOCAL-00018" summary="新增资源配置接口">
+      <created>1557233003236</created>
+      <option name="number" value="00018" />
+      <option name="presentableId" value="LOCAL-00018" />
+      <option name="project" value="LOCAL" />
+      <updated>1557233003236</updated>
+    </task>
+    <option name="localTasksCounter" value="19" />
     <servers />
   </component>
   <component name="TestHistory">
@@ -744,7 +747,7 @@
     </history-entry>
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="447552000" />
+    <option name="totallyTimeSpent" value="447622000" />
   </component>
   <component name="TodoView">
     <todo-panel id="selected-file">
@@ -844,7 +847,8 @@
     <MESSAGE value="定时删除超时任务线程" />
     <MESSAGE value="格式化SQL 文件" />
     <MESSAGE value="修复修改JOB类型获取不到" />
-    <option name="LAST_COMMIT_MESSAGE" value="修复修改JOB类型获取不到" />
+    <MESSAGE value="新增资源配置接口" />
+    <option name="LAST_COMMIT_MESSAGE" value="新增资源配置接口" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -926,6 +930,7 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="-180">
           <caret line="35" column="26" lean-forward="false" selection-start-line="35" selection-start-column="26" selection-end-line="35" selection-end-column="26" />
+          <folding />
         </state>
       </provider>
     </entry>
@@ -954,6 +959,7 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="27">
           <caret line="19" column="13" lean-forward="false" selection-start-line="19" selection-start-column="13" selection-end-line="19" selection-end-column="13" />
+          <folding />
         </state>
       </provider>
     </entry>
@@ -1095,6 +1101,10 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="-1819">
           <caret line="97" column="30" lean-forward="true" selection-start-line="97" selection-start-column="30" selection-end-line="97" selection-end-column="30" />
+          <folding>
+            <element signature="imports" expanded="false" />
+            <marker date="1556089579205" expanded="true" signature="1141:1308" ph="{...}" />
+          </folding>
         </state>
       </provider>
     </entry>

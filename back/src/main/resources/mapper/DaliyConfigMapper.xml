@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.autossh.dailyinspection.dao.DailyConfigDao">
+
+    <select id="countConfig" resultType="Integer">
+        SELECT
+	            count(0)
+          FROM
+                  dc_daily_config ddc
+         WHERE   ddc.is_delete = '0'
+    </select>
+
+    <select id="listConfig" resultType="com.alibaba.fastjson.JSONObject">
+        SELECT
+            ddc.id,
+            ddc.code,
+            ddc.daily_desc dailyDesc,
+            ddc.waring,
+            ddc.waring_priv waringPriv,
+            ddc.critical_priv criticalPriv,
+            ddc.critical
+        FROM
+            dc_daily_config ddc
+        LIMIT #{offSet}, #{pageRow}
+    </select>
+    <select id="listConfigOne" resultType="com.alibaba.fastjson.JSONObject">
+        SELECT
+                shell_desc dailyDesc,
+                `code`
+          FROM
+                dc_shell_setting
+         WHERE
+              `code` NOT IN (
+                          SELECT
+                                  `code`
+                            FROM
+                                  dc_daily_config
+                          ) LIMIT 1
+    </select>
+    <update id="updateConfig" parameterType="com.alibaba.fastjson.JSONObject">
+        UPDATE dc_daily_config ddc
+           SET
+                ddc.code         = #{code},
+                ddc.daily_desc   = #{dailyDesc},
+                ddc.waring_priv   = #{waringPriv},
+                ddc.critical_priv = #{criticalPriv},
+                ddc.waring       = #{waring},
+                ddc.critical     =  #{critical}
+         WHERE ddc.id           = #{id}
+    </update>
+
+    <update id="deleteConfig" parameterType="com.alibaba.fastjson.JSONObject">
+        UPDATE dc_daily_config ddc
+           SET ddc.IS_DELETE = '1'
+         WHERE ddc.ID = #{id};
+
+    </update>
+
+    <insert id="addConfig" parameterType="com.alibaba.fastjson.JSONObject">
+        INSERT
+        INTO dc_daily_config
+        (`code`, `daily_desc`, `waring`, `critical`, waring_priv, critical_priv)
+        VALUES
+        (#{code}, #{dailyDesc}, #{waring}, #{critical}, #{waringPriv}, #{criticalPriv})
+    </insert>
+
+</mapper>

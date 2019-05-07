@@ -24,10 +24,13 @@
                    WHERE IS_DELETE = 0
                      AND exec_result != ""
                     <if test="IP != '' and IP != null ">
-                      AND ip LIKE "%"#{IP}"%"
+                     AND ip LIKE "%"#{IP}"%"
                     </if>
                     <if test="resultStatus != '' and resultStatus != null ">
-                      AND substring_index(substring_index(dc_log.result_status,"_",-1),"_",1) = #{resultStatus}
+                     AND substring_index(substring_index(dc_log.result_status,"_",-1),"_",1) = #{resultStatus}
+                    </if>
+                    <if test="dataTime != '' and dataTime != null ">
+                     AND DATE_FORMAT(dc_log.exec_time,'%Y-%m-%d') = RTRIM( LTRIM(#{dataTime}))
                     </if>
                      ) LEVEL1
     </select>
@@ -54,6 +57,9 @@
            </if>
            <if test="resultStatus != '' and resultStatus != null ">
            AND substring_index(substring_index(dc_log.result_status,"_",-1),"_",1) = #{resultStatus}
+           </if>
+           <if test="dataTime != '' and dataTime != null ">
+           AND DATE_FORMAT(dc_log.exec_time,'%Y-%m-%d') = RTRIM(LTRIM(#{dataTime}))
            </if>
            ORDER BY
                     result_status DESC,

@@ -17,6 +17,11 @@ public interface DailyConfigService {
 	JSONObject listConfig(JSONObject jsonObject);
 
 	/**
+	 * 配置列表
+	 */
+	JSONObject listDistConfig(JSONObject jsonObject);
+
+	/**
 	 * 获取一条未进行配置的监控项
 	 */
 	JSONObject listConfigOne(JSONObject jsonObject);
@@ -24,7 +29,12 @@ public interface DailyConfigService {
 	/**
 	 * 更新配置
 	 */
-	JSONObject updateConfig(JSONObject jsonObject);
+	JSONObject updateCodeConfig(JSONObject jsonObject);
+
+	/**
+	 * 更新配置
+	 */
+	JSONObject updateIdConfig(JSONObject jsonObject);
 
     /**
      * 删除配置

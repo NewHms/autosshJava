@@ -5,7 +5,7 @@
 
     <insert id="addPortion" parameterType="com.alibaba.fastjson.JSONObject">
         INSERT
-          INTO dc_distribute_setting
+        INTO dc_distribute_setting
                (ip,host_name,sys_version,system_type,exec_time
                <if test="timeOut != '' and timeOut != null ">
                ,time_out
@@ -20,8 +20,8 @@
 
     <select id="countPortion" resultType="Integer">
         SELECT   count(0)
-          FROM   dc_distribute_setting dds
-         WHERE   dds.is_delete = '0'
+        FROM   dc_distribute_setting dds
+        WHERE   dds.is_delete = '0'
     </select>
 
     <select id="listPortion" resultType="com.alibaba.fastjson.JSONObject">
@@ -34,10 +34,10 @@
                   ssh.system_type systemType,
                   ssh.exec_time execTime,
                   date_format(ssh.create_time, '%Y-%m-%d %T') createTime
-           FROM   dc_distribute_setting ssh
-          WHERE ssh.IS_DELETE = '0'
+        FROM   dc_distribute_setting ssh
+        WHERE ssh.IS_DELETE = '0'
           <if test="IP != '' and IP != null ">
-            AND ssh.IP LIKE "%"#{IP}"%"
+        AND ssh.IP LIKE "%"#{IP}"%"
           </if>
         LIMIT #{offSet}, #{pageRow}
     </select>
@@ -49,32 +49,32 @@
                   ssh.time_out    timeOut,
                   ssh.exec_time   execTime,
                   ssh.system_type systemType
-          FROM
+        FROM
                   dc_distribute_setting SSH
-         WHERE ip
+        WHERE ip
         NOT IN (
                 SELECT
                         HOST
-                  FROM
+                FROM
                         dc_server_setting dss
-                 WHERE
+                WHERE
                         is_delete != 1
-                   AND ssh.system_type = dss.system_type)
-           AND is_delete = 0
-      ORDER BY
+                AND ssh.system_type = dss.system_type)
+        AND is_delete = 0
+        ORDER BY
                 CREATE_TIME
-      LIMIT 1
+        LIMIT 1
     </select>
     <select id="getAllServerType" resultType="com.alibaba.fastjson.JSONObject">
         SELECT
                 id          serverId,
                 server_type serverType
-          FROM dc_config
+        FROM dc_config
     </select>
 
     <update id="updatePortion" parameterType="com.alibaba.fastjson.JSONObject">
         UPDATE dc_distribute_setting ssh
-           SET
+        SET
                 ssh.ip          = #{IP},
                 ssh.host_name   = #{hostName},
                 ssh.sys_version = #{sysVersion},
@@ -83,7 +83,7 @@
                 </if>
                 ssh.system_type = #{systemType},
                 exec_time       = #{execTime}
-         WHERE ssh.id = #{id}
+        WHERE ssh.id = #{id};
     </update>
 
     <update id="deletePortion" parameterType="com.alibaba.fastjson.JSONObject">

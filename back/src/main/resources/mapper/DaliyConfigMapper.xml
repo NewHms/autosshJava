@@ -11,58 +11,149 @@
          WHERE   ddc.is_delete = '0'
     </select>
 
-    <select id="listConfig" resultType="com.alibaba.fastjson.JSONObject">
+    <select id="countDistConfig" resultType="Integer">
         SELECT
-            ddc.id,
-            ddc.code,
-            ddc.daily_desc dailyDesc,
-            ddc.waring,
-            ddc.waring_priv waringPriv,
-            ddc.critical_priv criticalPriv,
-            ddc.critical
-        FROM
-            dc_daily_config ddc
+                count(DISTINCT code)
+          FROM
+                dc_daily_config ddc
+        WHERE   ddc.is_delete = '0'
+    </select>
+
+    <select id="listDistConfig" resultType="com.alibaba.fastjson.JSONObject">
+        SELECT
+                DISTINCT
+                ddc.code,
+                ddc.daily_desc dailyDesc,
+                ddc.critical,
+                ddc.critical_priv criticalPriv,
+                ddc.daily_rule dailyRule,
+                ddc.waring,
+                ddc.waring_priv waringPriv
+          FROM
+	           dc_daily_config ddc
+         WHERE
+	            ddc.is_delete = 0
+	     ORDER BY ddc.code
         LIMIT #{offSet}, #{pageRow}
     </select>
+
+    <select id="listConfig" resultType="com.alibaba.fastjson.JSONObject">
+        SELECT
+                ddc.id,
+                ddc.code,
+                ddc.ip,
+                ddc.daily_desc dailyDesc,
+                ddc.critical,
+                ddc.critical_priv criticalPriv,
+                ddc.daily_rule dailyRule,
+                ddc.waring,
+                ddc.waring_priv waringPriv
+        FROM
+                dc_daily_config ddc
+        WHERE
+                ddc.is_delete = 0
+        ORDER BY ddc.ip
+        LIMIT #{offSet}, #{pageRow}
+    </select>
+
     <select id="listConfigOne" resultType="com.alibaba.fastjson.JSONObject">
         SELECT
                 shell_desc dailyDesc,
                 `code`
-          FROM
+        FROM
                 dc_shell_setting
-         WHERE
+        WHERE
               `code` NOT IN (
                           SELECT
                                   `code`
-                            FROM
+                          FROM
                                   dc_daily_config
                           ) LIMIT 1
     </select>
-    <update id="updateConfig" parameterType="com.alibaba.fastjson.JSONObject">
+    <update id="updateCodeConfig" parameterType="com.alibaba.fastjson.JSONObject">
         UPDATE dc_daily_config ddc
-           SET
-                ddc.code         = #{code},
-                ddc.daily_desc   = #{dailyDesc},
+        SET
+                ddc.code           = #{code},
+                ddc.daily_desc     = #{dailyDesc},
+                ddc.daily_rule     = #{dailyRule},
+                ddc.waring         = #{waring},
+                ddc.critical       =  #{critical}
+        WHERE  ddc.code          = #{code}
+    </update>
+
+    <update id="updateIdConfig" parameterType="com.alibaba.fastjson.JSONObject">
+        UPDATE dc_daily_config ddc
+        SET
                 ddc.waring_priv   = #{waringPriv},
-                ddc.critical_priv = #{criticalPriv},
-                ddc.waring       = #{waring},
-                ddc.critical     =  #{critical}
-         WHERE ddc.id           = #{id}
+                ddc.critical_priv = #{criticalPriv}
+        WHERE  ddc.id          = #{id}
     </update>
 
     <update id="deleteConfig" parameterType="com.alibaba.fastjson.JSONObject">
         UPDATE dc_daily_config ddc
-           SET ddc.IS_DELETE = '1'
-         WHERE ddc.ID = #{id};
+        SET ddc.IS_DELETE = '1'
+        WHERE ddc.ID = #{id};
 
     </update>
 
     <insert id="addConfig" parameterType="com.alibaba.fastjson.JSONObject">
         INSERT
-        INTO dc_daily_config
-        (`code`, `daily_desc`, `waring`, `critical`, waring_priv, critical_priv)
-        VALUES
-        (#{code}, #{dailyDesc}, #{waring}, #{critical}, #{waringPriv}, #{criticalPriv})
+        INTO  dc_daily_config
+              (`ip`, `type`, `code`, `daily_desc`, `waring`, `critical`, daily_rule)
+        SELECT
+                `host`,
+                `type`,
+                level_shell.`code`,
+                level_shell.shell_desc,
+                #{waring},
+                #{critical},
+                #{dailyRule}
+        FROM
+            (
+            SELECT DISTINCT
+                    type,
+                    HOST,
+                    TRIM(
+                    substring_index(
+                    substring_index(
+                    t.SYS_VERSION,
+                    ',',
+                    b.help_topic_id + 1
+                    ),
+                    ',' ,- 1
+                    )
+                    ) sys_version
+            FROM
+            (
+                SELECT
+                    q.system_type type,
+                    q. HOST,
+                    p.sys_version
+                FROM
+                    dc_server_setting q
+                LEFT JOIN dc_distribute_setting p
+                ON         q. HOST = p.ip
+                WHERE
+                    q.is_delete = 0
+                AND locate(
+                    q.system_type,
+                    p.sys_version
+                    )
+            ) t
+            JOIN mysql.help_topic b
+            ON b.help_topic_id &lt; (
+                LENGTH(t.sys_version) - LENGTH(
+                REPLACE (t.sys_version, ',', '')
+                ) + 1
+            )) level_1
+            JOIN dc_shell_setting level_shell
+            ON level_1.sys_version = CONCAT(
+                level_shell.system_type,
+                '_',
+                level_shell.system_version
+                )
+        WHERE
+        `code` = #{code}
     </insert>
 
 </mapper>

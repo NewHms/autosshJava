@@ -31,6 +31,17 @@ public class DailyConfigController {
     }
 
     /**
+     * 查看配置列表
+     * @param request
+     * @return
+     */
+    @RequiresPermissions("scriptConfig:list")
+    @GetMapping("/listDistConfig")
+    public JSONObject listDistConfig(HttpServletRequest request){
+        return service.listDistConfig(CommonUtil.request2Json(request));
+    }
+
+    /**
      * 获取一条未进行配置的监控项
      * @param request
      * @return
@@ -59,10 +70,22 @@ public class DailyConfigController {
      * @return
      */
     @RequiresPermissions("scriptConfig:update")
-    @PostMapping("/updateConfig")
-    public JSONObject updateConfig(@RequestBody JSONObject requestJson){
-        CommonUtil.hasAllRequired(requestJson, "code, dailyDesc, waring, critical");
-        return service.updateConfig(requestJson);
+    @PostMapping("/updateCodeConfig")
+    public JSONObject updateCodeConfig(@RequestBody JSONObject requestJson){
+        CommonUtil.hasAllRequired(requestJson, "waring, critical, dailyRule");
+        return service.updateCodeConfig(requestJson);
+    }
+
+    /**
+     * 修改配置
+     * @param requestJson
+     * @return
+     */
+    @RequiresPermissions("scriptConfig:update")
+    @PostMapping("/updateIdConfig")
+    public JSONObject updateIdConfig(@RequestBody JSONObject requestJson){
+        CommonUtil.hasAllRequired(requestJson, "waringPriv, criticalPriv");
+        return service.updateIdConfig(requestJson);
     }
 
     /**

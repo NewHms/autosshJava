@@ -21,9 +21,19 @@ public interface DailyConfigDao {
 	int countConfig(JSONObject jsonObject);
 
 	/**
+	 * 统计配置总数
+	 */
+	int countDistConfig(JSONObject jsonObject);
+
+	/**
 	 * 命令配置
 	 */
 	List<JSONObject> listConfig(JSONObject jsonObject);
+
+	/**
+	 * 命令配置
+	 */
+	List<JSONObject> listDistConfig(JSONObject jsonObject);
 
 	/**
 	 * 获取一条未进行配置的监控项
@@ -33,7 +43,12 @@ public interface DailyConfigDao {
 	/**
 	 * 更新配置
 	 */
-	int updateConfig(JSONObject jsonObject);
+	int updateIdConfig(JSONObject jsonObject);
+
+	/**
+	 * 更新配置
+	 */
+	int updateCodeConfig(JSONObject jsonObject);
 
     /**
      * 删除配置

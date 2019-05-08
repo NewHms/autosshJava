@@ -10,10 +10,10 @@
                 u.password password,
                 u.random random,
                 u.nickname nickName
-          FROM
+        FROM
                 sys_user u
-         WHERE u.username = #{username}
-           AND u.delete_status = '1'
+        WHERE u.username = #{username}
+        AND u.delete_status = '1'
     </select>
 
 </mapper>

@@ -43,6 +43,19 @@ public class DailyConfigServiceImpl implements DailyConfigService {
     }
 
     /**
+     * 配置列表
+     * @param jsonObject
+     * @return
+     */
+    @Override
+    public JSONObject listDistConfig(JSONObject jsonObject) {
+        CommonUtil.fillPageParam(jsonObject);
+        int countDist = dao.countDistConfig(jsonObject);
+        List<JSONObject> list = dao.listDistConfig(jsonObject);
+        return CommonUtil.successPage(jsonObject,list,countDist);
+    }
+
+    /**
      * 获取一条未进行配置的监控项
      * @param jsonObject
      * @return
@@ -62,8 +75,21 @@ public class DailyConfigServiceImpl implements DailyConfigService {
      */
     @Override
     @Transactional(rollbackFor = Exception.class)
-    public JSONObject updateConfig(JSONObject jsonObject) {
-        dao.updateConfig(jsonObject);
+    public JSONObject updateCodeConfig(JSONObject jsonObject) {
+        dao.updateCodeConfig(jsonObject);
+        return CommonUtil.successJson();
+    }
+
+
+    /**
+     * 更新配置
+     * @param jsonObject
+     * @return
+     */
+    @Override
+    @Transactional(rollbackFor = Exception.class)
+    public JSONObject updateIdConfig(JSONObject jsonObject) {
+        dao.updateIdConfig(jsonObject);
         return CommonUtil.successJson();
     }
 

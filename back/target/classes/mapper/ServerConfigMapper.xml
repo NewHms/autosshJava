@@ -5,7 +5,7 @@
 
     <insert id="addServer" parameterType="com.alibaba.fastjson.JSONObject">
         INSERT
-          INTO dc_server_setting
+        INTO dc_server_setting
                (host, service_name, post, application_server, user_name, password, db_username, db_password,
                 subject, system_type, crontab, exec_time, time_out)
         VALUES
@@ -16,7 +16,7 @@
     <select id="countServer" resultType="Integer">
         SELECT
 	           count(0)
-          FROM
+        FROM
               (
                 SELECT
                             p.id,
@@ -39,15 +39,15 @@
                             'name',
                             'group',
                             q.class_path classPath
-                   FROM
+                FROM
                         dc_server_setting q
-             LEFT JOIN dc_distribute_setting p ON q. HOST = p.IP
-                   AND q.system_type = p.system_type
-                 WHERE
+                LEFT JOIN dc_distribute_setting p ON q. HOST = p.IP
+                AND q.system_type = p.system_type
+                WHERE
                         q.is_delete = 0
-                   AND
+                AND
                         p.is_delete = 0
-            ) LEVEL1
+        ) LEVEL1
     </select>
 
     <select id="listServer" resultType="com.alibaba.fastjson.JSONObject">
@@ -71,20 +71,20 @@
                     q.crontab cron,
                     'group',
                     q.class_path classPath
-           FROM
+        FROM
                   dc_server_setting q
-      LEFT JOIN  dc_distribute_setting p ON q. HOST = p.IP
-             AND  q.system_type = p.system_type
-           WHERE
+        LEFT JOIN  dc_distribute_setting p ON q. HOST = p.IP
+        AND  q.system_type = p.system_type
+        WHERE
                   q.is_delete = 0
-             AND
+        AND
                   p.is_delete = 0
         <if test="host != '' and host != null ">
-            AND host LIKE "%"#{host}"%"
+        AND host LIKE "%"#{host}"%"
         </if>
 
         <if test="id != '' and id != null ">
-            AND p.id = #{id}
+        AND p.id = #{id}
         </if>
         LIMIT #{offSet}, #{pageRow}
     </select>
@@ -110,15 +110,15 @@
                     q.crontab cron,
                     'group',
                     q.class_path classPath
-           FROM
+        FROM
                    dc_server_setting q
-      LEFT JOIN   dc_distribute_setting p ON q. HOST = p.IP
-             AND  q.system_type = p.system_type
-           WHERE
+        LEFT JOIN   dc_distribute_setting p ON q. HOST = p.IP
+        AND  q.system_type = p.system_type
+        WHERE
                   q.is_delete = 0
-             AND
+        AND
                   p.is_delete = 0
-             AND  p.id = #{id}
+        AND  p.id = #{id}
     </select>
 
     <select id="getAllJobInfo" resultType="com.alibaba.fastjson.JSONObject">
@@ -142,18 +142,18 @@
                 q.time_out  timeOut,
                 'group',
                 q.class_path classPath
-          FROM
+        FROM
                 dc_server_setting q
-    LEFT JOIN dc_distribute_setting p ON q. HOST = p.IP
-           AND q.system_type = p.system_type
-         WHERE
+        LEFT JOIN dc_distribute_setting p ON q. HOST = p.IP
+        AND q.system_type = p.system_type
+        WHERE
                 q.is_delete = 0
-           AND
+        AND
                 p.is_delete = 0
-           AND
+        AND
                 q.CRONTAB = 1
         <if test="host != '' and host != null ">
-           AND host LIKE "%"#{host}"%"
+        AND host LIKE "%"#{host}"%"
         </if>
 
     </select>
@@ -161,10 +161,10 @@
     <!--适用版本字段不可修改 -->
     <update id="updateServer" parameterType="com.alibaba.fastjson.JSONObject">
         UPDATE dc_server_setting ssh
-     LEFT JOIN
+        LEFT JOIN
                 dc_distribute_setting dds ON ssh. HOST = dds.IP
-           AND ssh.system_type = dds.system_type
-           SET
+        AND ssh.system_type = dds.system_type
+        SET
                 ssh.host                =  #{host},
                 ssh.service_name        =  #{serviceName},
                 ssh.post                =  #{post},
@@ -184,13 +184,13 @@
 
     <update id="deleteServer" parameterType="com.alibaba.fastjson.JSONObject">
         UPDATE   dc_server_setting ssh
-           SET   ssh.is_delete = '1'
-         WHERE   ssh.id = #{id};
+        SET   ssh.is_delete = '1'
+        WHERE   ssh.id = #{id};
 
         UPDATE    dc_distribute_setting dds
-           SET    dds.is_delete = '1'
+        SET    dds.is_delete = '1'
         WHERE     dds.IP = (SELECT  ssh.host
-                              FROM   dc_server_setting ssh
+                             FROM   dc_server_setting ssh
                              WHERE   ssh.id = #{id});
     </update>
 

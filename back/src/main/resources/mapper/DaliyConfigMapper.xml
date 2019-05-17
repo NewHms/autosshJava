@@ -9,6 +9,9 @@
           FROM
                   dc_daily_config ddc
          WHERE   ddc.is_delete = '0'
+         <if test="ip != '' and ip != null ">
+         AND ip LIKE "%"#{ip}"%"
+         </if>
     </select>
 
     <select id="countDistConfig" resultType="Integer">
@@ -17,6 +20,9 @@
           FROM
                 dc_daily_config ddc
         WHERE   ddc.is_delete = '0'
+        <if test="dailyDesc != '' and dailyDesc != null ">
+            AND daily_desc LIKE "%"#{dailyDesc}"%"
+        </if>
     </select>
 
     <select id="listDistConfig" resultType="com.alibaba.fastjson.JSONObject">
@@ -25,14 +31,20 @@
                 ddc.code,
                 ddc.daily_desc dailyDesc,
                 ddc.critical,
-                ddc.critical_priv criticalPriv,
-                ddc.daily_rule dailyRule,
-                ddc.waring,
-                ddc.waring_priv waringPriv
+                CASE
+                WHEN ddc.daily_rule = 1 THEN
+	                  '不等式'
+                WHEN ddc.daily_rule = 0 THEN
+	                  '等式'
+                END dailyRule,
+                ddc.warning
           FROM
 	           dc_daily_config ddc
          WHERE
 	            ddc.is_delete = 0
+         <if test="dailyDesc != '' and dailyDesc != null ">
+         AND daily_desc LIKE "%"#{dailyDesc}"%"
+         </if>
 	     ORDER BY ddc.code
         LIMIT #{offSet}, #{pageRow}
     </select>
@@ -44,14 +56,23 @@
                 ddc.ip,
                 ddc.daily_desc dailyDesc,
                 ddc.critical,
+                ddc.type,
                 ddc.critical_priv criticalPriv,
-                ddc.daily_rule dailyRule,
-                ddc.waring,
-                ddc.waring_priv waringPriv
+                CASE
+                WHEN ddc.daily_rule = 1 THEN
+	                  '不等式'
+                WHEN ddc.daily_rule = 0 THEN
+	                  '等式'
+                END dailyRule,
+                ddc.warning,
+                ddc.warning_priv warningPriv
         FROM
                 dc_daily_config ddc
         WHERE
                 ddc.is_delete = 0
+        <if test="ip != '' and ip != null ">
+        AND ip LIKE "%"#{ip}"%"
+        </if>
         ORDER BY ddc.ip
         LIMIT #{offSet}, #{pageRow}
     </select>
@@ -61,14 +82,15 @@
                 shell_desc dailyDesc,
                 `code`
         FROM
-                dc_shell_setting
+                dc_shell_setting dss
         WHERE
               `code` NOT IN (
                           SELECT
                                   `code`
                           FROM
                                   dc_daily_config
-                          ) LIMIT 1
+                          )
+        AND   dss.is_delete = 0                 LIMIT 1
     </select>
     <update id="updateCodeConfig" parameterType="com.alibaba.fastjson.JSONObject">
         UPDATE dc_daily_config ddc
@@ -76,7 +98,7 @@
                 ddc.code           = #{code},
                 ddc.daily_desc     = #{dailyDesc},
                 ddc.daily_rule     = #{dailyRule},
-                ddc.waring         = #{waring},
+                ddc.warning         = #{warning},
                 ddc.critical       =  #{critical}
         WHERE  ddc.code          = #{code}
     </update>
@@ -84,7 +106,7 @@
     <update id="updateIdConfig" parameterType="com.alibaba.fastjson.JSONObject">
         UPDATE dc_daily_config ddc
         SET
-                ddc.waring_priv   = #{waringPriv},
+                ddc.warning_priv   = #{warningPriv},
                 ddc.critical_priv = #{criticalPriv}
         WHERE  ddc.id          = #{id}
     </update>

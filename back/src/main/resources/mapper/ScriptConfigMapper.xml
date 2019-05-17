@@ -6,9 +6,9 @@
     <insert id="addScript" parameterType="com.alibaba.fastjson.JSONObject">
         INSERT
         INTO dc_shell_setting
-               (shell_name, shell_desc, system_type, system_version, code)
+               (shell_name, shell_desc, system_type, code)
         VALUES
-               (#{shellName}, #{shellDesc}, #{systemType}, #{systemVersion}, #{code})
+               (#{shellName}, #{shellDesc}, #{systemType}, #{code})
 
 
     </insert>
@@ -27,7 +27,6 @@
                 ssh.shell_name shellName,
                 ssh.shell_desc shellDesc,
                 ssh.system_type systemType,
-                ssh.system_version systemVersion,
                 date_format(ssh.create_time, '%Y-%m-%d %T') createTime
         FROM  dc_shell_setting ssh
         WHERE ssh.is_delete = '0'
@@ -49,10 +48,8 @@
 	            system_version serverType
         FROM(
       		    SELECT DISTINCT
-                        CONCAT(
-                        dss.system_type,
-                        "_",
-                        dss.system_version ) system_version
+                        dss.system_type
+                        system_version
 		        FROM
 			            dc_shell_setting dss) L1,
 	    (SELECT @rownum := 0) r
@@ -64,8 +61,7 @@
                 ssh.shell_name  = #{shellName},
                 ssh.code        =#{code},
                 ssh.shell_desc  = #{shellDesc},
-                ssh.system_type = #{systemType},
-                system_version  = #{systemVersion}
+                ssh.system_type = #{systemType}
         WHERE ssh.id = #{id}
     </update>
 

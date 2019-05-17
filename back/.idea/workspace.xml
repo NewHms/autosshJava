@@ -3,28 +3,14 @@
   <component name="ChangeListManager">
     <list default="true" id="7de84ba9-36ff-40d9-ace8-e2e09e8c96bc" name="Default" comment="">
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/logs/2019-05/autossh-2019-05-07.log" afterPath="$PROJECT_DIR$/logs/2019-05/autossh-2019-05-07.log" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/com/autossh/dailyinspection/controller/DailyConfigController.java" afterPath="$PROJECT_DIR$/src/main/java/com/autossh/dailyinspection/controller/DailyConfigController.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/com/autossh/dailyinspection/dao/DailyConfigDao.java" afterPath="$PROJECT_DIR$/src/main/java/com/autossh/dailyinspection/dao/DailyConfigDao.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/com/autossh/dailyinspection/service/DailyConfigService.java" afterPath="$PROJECT_DIR$/src/main/java/com/autossh/dailyinspection/service/DailyConfigService.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/com/autossh/dailyinspection/service/impl/DailyConfigServiceImpl.java" afterPath="$PROJECT_DIR$/src/main/java/com/autossh/dailyinspection/service/impl/DailyConfigServiceImpl.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/resources/mapper/ArticleMapper.xml" afterPath="$PROJECT_DIR$/src/main/resources/mapper/ArticleMapper.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/logs/2019-05/autossh-2019-05-08.log" afterPath="$PROJECT_DIR$/logs/2019-05/autossh-2019-05-08.log" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/resources/application.yml" afterPath="$PROJECT_DIR$/src/main/resources/application.yml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/resources/mapper/DaliyConfigMapper.xml" afterPath="$PROJECT_DIR$/src/main/resources/mapper/DaliyConfigMapper.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/resources/mapper/DaliyLogMapper.xml" afterPath="$PROJECT_DIR$/src/main/resources/mapper/DaliyLogMapper.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/resources/mapper/LoginMapper.xml" afterPath="$PROJECT_DIR$/src/main/resources/mapper/LoginMapper.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/resources/mapper/PermissionMapper.xml" afterPath="$PROJECT_DIR$/src/main/resources/mapper/PermissionMapper.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/resources/mapper/PortionConfigMapper.xml" afterPath="$PROJECT_DIR$/src/main/resources/mapper/PortionConfigMapper.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/resources/mapper/ScriptConfigMapper.xml" afterPath="$PROJECT_DIR$/src/main/resources/mapper/ScriptConfigMapper.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/resources/mapper/ServerConfigMapper.xml" afterPath="$PROJECT_DIR$/src/main/resources/mapper/ServerConfigMapper.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/resources/mapper/UserMapper.xml" afterPath="$PROJECT_DIR$/src/main/resources/mapper/UserMapper.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/classes/mapper/ArticleMapper.xml" afterPath="$PROJECT_DIR$/target/classes/mapper/ArticleMapper.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/classes/application.yml" afterPath="$PROJECT_DIR$/target/classes/application.yml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/classes/mapper/DaliyLogMapper.xml" afterPath="$PROJECT_DIR$/target/classes/mapper/DaliyLogMapper.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/classes/mapper/LoginMapper.xml" afterPath="$PROJECT_DIR$/target/classes/mapper/LoginMapper.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/classes/mapper/PermissionMapper.xml" afterPath="$PROJECT_DIR$/target/classes/mapper/PermissionMapper.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/classes/mapper/PortionConfigMapper.xml" afterPath="$PROJECT_DIR$/target/classes/mapper/PortionConfigMapper.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/classes/mapper/ScriptConfigMapper.xml" afterPath="$PROJECT_DIR$/target/classes/mapper/ScriptConfigMapper.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/classes/mapper/ServerConfigMapper.xml" afterPath="$PROJECT_DIR$/target/classes/mapper/ServerConfigMapper.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/classes/mapper/UserMapper.xml" afterPath="$PROJECT_DIR$/target/classes/mapper/UserMapper.xml" />
     </list>
     <ignored path="$PROJECT_DIR$/target/" />
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
@@ -637,7 +623,7 @@
       <workItem from="1557127775686" duration="11267000" />
       <workItem from="1557232274947" duration="524000" />
       <workItem from="1557240084518" duration="21578000" />
-      <workItem from="1557325654631" duration="82000" />
+      <workItem from="1557325654631" duration="775000" />
     </task>
     <task id="LOCAL-00001" summary="新增日检服务器配置">
       <created>1553250279652</created>
@@ -758,7 +744,14 @@
       <option name="project" value="LOCAL" />
       <updated>1555929673775</updated>
     </task>
-    <option name="localTasksCounter" value="18" />
+    <task id="LOCAL-00018" summary="修复资源配置界面、整理SQL格式">
+      <created>1557325820558</created>
+      <option name="number" value="00018" />
+      <option name="presentableId" value="LOCAL-00018" />
+      <option name="project" value="LOCAL" />
+      <updated>1557325820558</updated>
+    </task>
+    <option name="localTasksCounter" value="19" />
     <servers />
   </component>
   <component name="TestHistory">
@@ -782,7 +775,7 @@
     </history-entry>
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="469711000" />
+    <option name="totallyTimeSpent" value="470404000" />
   </component>
   <component name="TodoView">
     <todo-panel id="selected-file">
@@ -882,7 +875,8 @@
     <MESSAGE value="定时删除超时任务线程" />
     <MESSAGE value="格式化SQL 文件" />
     <MESSAGE value="修复修改JOB类型获取不到" />
-    <option name="LAST_COMMIT_MESSAGE" value="修复修改JOB类型获取不到" />
+    <MESSAGE value="修复资源配置界面、整理SQL格式" />
+    <option name="LAST_COMMIT_MESSAGE" value="修复资源配置界面、整理SQL格式" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -1207,21 +1201,21 @@
         <state relative-caret-position="504">
           <caret line="156" column="13" lean-forward="true" selection-start-line="156" selection-start-column="13" selection-end-line="156" selection-end-column="13" />
           <folding>
-            <element signature="e#4514#4518#0" expanded="true" />
-            <marker date="1557325153732" expanded="true" signature="284:402" ph="SELECT count... dc_daily_config" />
-            <marker date="1557325153732" expanded="true" signature="481:611" ph="SELECT count... dc_daily_config" />
-            <marker date="1557325153732" expanded="true" signature="713:1156" ph="SELECT ssh.i... dc_distribute_setting" />
-            <marker date="1557325153732" expanded="true" signature="1254:1724" ph="SELECT ddc.i... dc_daily_config" />
-            <marker date="1557325153732" expanded="true" signature="1825:2173" ph="SELECT shell... dc_shell_setting" />
-            <marker date="1557325153732" expanded="true" signature="2009:2137" ph="SELECT `code... dc_daily_config" />
-            <marker date="1557325153732" expanded="true" signature="2279:2606" ph="UPDATE dc_da... " />
-            <marker date="1557325153732" expanded="true" signature="2711:2891" ph="UPDATE dc_da... " />
-            <marker date="1557325153732" expanded="true" signature="2994:3081" ph="UPDATE dc_da... " />
-            <marker date="1557325153732" expanded="true" signature="3183:3313" ph="INSERT INTO dc_daily_config" />
-            <marker date="1557325153732" expanded="true" signature="3183:4915" ph="INSERT INTO dc_daily_config" />
-            <marker date="1557325153732" expanded="true" signature="3313:4915" ph="SELECT `host... type" />
-            <marker date="1557325153732" expanded="true" signature="3568:4653" ph="SELECT DISTI... system_type" />
-            <marker date="1557325153732" expanded="true" signature="3991:4430" ph="SELECT q.sys... dc_server_setting" />
+            <element signature="e#5238#5242#0" expanded="false" />
+            <marker date="1557891786957" expanded="true" signature="284:402" ph="SELECT count... dc_daily_config" />
+            <marker date="1557891786957" expanded="true" signature="481:611" ph="SELECT count... dc_daily_config" />
+            <marker date="1557891786957" expanded="true" signature="713:1156" ph="SELECT ssh.i... dc_distribute_setting" />
+            <marker date="1557891786957" expanded="true" signature="1254:1724" ph="SELECT ddc.i... dc_daily_config" />
+            <marker date="1557891786957" expanded="true" signature="1825:2173" ph="SELECT shell... dc_shell_setting" />
+            <marker date="1557891786957" expanded="true" signature="2009:2137" ph="SELECT `code... dc_daily_config" />
+            <marker date="1557891786957" expanded="true" signature="2279:2606" ph="UPDATE dc_da... " />
+            <marker date="1557891786957" expanded="true" signature="3515:3615" ph="UPDATE dc_da... " />
+            <marker date="1557891786957" expanded="true" signature="3718:3805" ph="UPDATE dc_da... " />
+            <marker date="1557891786957" expanded="true" signature="3907:4037" ph="INSERT INTO dc_daily_config" />
+            <marker date="1557891786957" expanded="true" signature="3907:5639" ph="INSERT INTO dc_daily_config" />
+            <marker date="1557891786957" expanded="true" signature="4037:5639" ph="SELECT `host... type" />
+            <marker date="1557891786957" expanded="true" signature="4292:5377" ph="SELECT DISTI... system_type" />
+            <marker date="1557891786957" expanded="true" signature="4715:5154" ph="SELECT q.sys... dc_server_setting" />
           </folding>
         </state>
       </provider>
@@ -1231,9 +1225,9 @@
         <state relative-caret-position="401">
           <caret line="73" column="31" lean-forward="true" selection-start-line="73" selection-start-column="31" selection-end-line="73" selection-end-column="31" />
           <folding>
-            <marker date="1557325153229" expanded="true" signature="278:1546" ph="SELECT count... id" />
-            <marker date="1557325153229" expanded="true" signature="1641:2866" ph="SELECT dc_lo... " />
-            <marker date="1557325153229" expanded="true" signature="2966:3058" ph="UPDATE dc_da... " />
+            <marker date="1557843518515" expanded="true" signature="278:482" ph="SELECT count... id" />
+            <marker date="1557843518515" expanded="true" signature="2838:3015" ph="SELECT dc_lo... " />
+            <marker date="1557843518515" expanded="true" signature="3115:3207" ph="UPDATE dc_da... " />
           </folding>
         </state>
       </provider>
@@ -1305,14 +1299,14 @@
         <state relative-caret-position="482">
           <caret line="77" column="9" lean-forward="true" selection-start-line="77" selection-start-column="9" selection-end-line="77" selection-end-column="9" />
           <folding>
-            <marker date="1557325153261" expanded="true" signature="310:522" ph="INSERT INTO dc_shell_setting" />
-            <marker date="1557325153261" expanded="true" signature="599:682" ph="SELECT count... dc_shell_setting" />
-            <marker date="1557325153261" expanded="true" signature="780:1390" ph="SELECT ssh.i... dc_shell_setting" />
-            <marker date="1557325153261" expanded="true" signature="862:901" ph="SELECT MAX(c... dc_shell_setting" />
-            <marker date="1557325153261" expanded="true" signature="1492:1566" ph="SELECT id se... dc_config" />
-            <marker date="1557325153261" expanded="true" signature="1670:2052" ph="SELECT @rown... " />
-            <marker date="1557325153261" expanded="true" signature="2155:2461" ph="UPDATE dc_sh... " />
-            <marker date="1557325153261" expanded="true" signature="2564:2652" ph="UPDATE dc_sh... " />
+            <marker date="1558063418089" expanded="true" signature="310:400" ph="INSERT INTO dc_shell_setting" />
+            <marker date="1558063418089" expanded="true" signature="599:682" ph="SELECT count... dc_shell_setting" />
+            <marker date="1558063418089" expanded="true" signature="780:1390" ph="SELECT ssh.i... dc_shell_setting" />
+            <marker date="1558063418089" expanded="true" signature="862:901" ph="SELECT MAX(c... dc_shell_setting" />
+            <marker date="1558063418089" expanded="true" signature="1492:1566" ph="SELECT id se... dc_config" />
+            <marker date="1558063418089" expanded="true" signature="1670:2052" ph="SELECT @rown... " />
+            <marker date="1558063418089" expanded="true" signature="2212:2242" ph="UPDATE dc_sh... " />
+            <marker date="1558063418089" expanded="true" signature="2345:2433" ph="UPDATE dc_sh... " />
           </folding>
         </state>
       </provider>

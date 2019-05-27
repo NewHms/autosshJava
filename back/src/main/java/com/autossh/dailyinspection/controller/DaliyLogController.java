@@ -21,25 +21,40 @@ public class DaliyLogController {
 
     /**
      * 查看命令列表
+     *
      * @param request
      * @return
      */
     @RequiresPermissions("scriptConfig:list")
     @GetMapping("/listLog")
-    public JSONObject listLog(HttpServletRequest request){
+    public JSONObject listLog(HttpServletRequest request) {
         return service.listLog(CommonUtil.request2Json(request));
     }
 
     /**
      * 删除命令
+     *
      * @param requestJson
      * @return
      */
     @RequiresPermissions("scriptConfig:delete")
     @PostMapping("/deleteLog")
-    public JSONObject deleteLog(@RequestBody JSONObject requestJson){
+    public JSONObject deleteLog(@RequestBody JSONObject requestJson) {
         CommonUtil.hasAllRequired(requestJson, "id");
         return service.deleteLog(requestJson);
+    }
+
+
+    /**
+     * 删除命令
+     *
+
+     * @return
+     */
+    @RequiresPermissions("scriptConfig:delete")
+    @GetMapping("/dailyLogToExecl")
+    public String dailyLogToExecl(HttpServletRequest request) {
+        return service.dailyLogToExecl(CommonUtil.request2Json(request));
     }
 
 }

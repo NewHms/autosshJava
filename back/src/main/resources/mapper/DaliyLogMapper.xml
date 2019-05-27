@@ -30,12 +30,13 @@
                  AND ip LIKE "%"#{IP}"%"
                     </if>
                     <if test="resultStatus != '' and resultStatus != null ">
-                 AND substring_index(substring_index(dc_log.result_status,"_",-1),"_",1) = #{resultStatus}
+                 AND substring_index(dc_log.result_status,"_",1) = #{resultStatus}
                     </if>
                     <if test="dataTime != '' and dataTime != null ">
                  AND DATE_FORMAT(dc_log.exec_time,'%Y-%m-%d') = RTRIM( LTRIM(#{dataTime}))
                     </if>
         ) LEVEL1
+        LIMIT #{offSet}, #{pageRow}
     </select>
 
     <select id="listLog" resultType="com.alibaba.fastjson.JSONObject">
@@ -53,7 +54,7 @@
                 dc_log.type
         FROM
                 dc_daily_log dc_log
-        JOIN
+        LEFT JOIN
                 dc_shell_setting dss
         ON      dc_log.code = dss.code
         WHERE dc_log.IS_DELETE = 0

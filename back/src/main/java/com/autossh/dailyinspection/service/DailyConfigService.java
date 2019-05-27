@@ -37,7 +37,9 @@ public interface DailyConfigService {
 	JSONObject updateIdConfig(JSONObject jsonObject);
 
     /**
-     * 删除配置
-     */
-    JSONObject deleteConfig(JSONObject jsonObject);
+	 * 删除配置
+	 */
+	JSONObject deleteConfig(JSONObject jsonObject);
+
+
 }

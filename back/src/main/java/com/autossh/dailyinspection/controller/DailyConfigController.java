@@ -60,7 +60,7 @@ public class DailyConfigController {
     @RequiresPermissions("scriptConfig:add")
     @PostMapping("/addConfig")
     public JSONObject addConfig(@RequestBody JSONObject requestJson){
-        CommonUtil.hasAllRequired(requestJson,"code, dailyDesc, waring, critical");
+        CommonUtil.hasAllRequired(requestJson,"code, dailyDesc, warning, critical");
         return service.addConfig(requestJson);
     }
 
@@ -72,7 +72,7 @@ public class DailyConfigController {
     @RequiresPermissions("scriptConfig:update")
     @PostMapping("/updateCodeConfig")
     public JSONObject updateCodeConfig(@RequestBody JSONObject requestJson){
-        CommonUtil.hasAllRequired(requestJson, "waring, critical, dailyRule");
+        CommonUtil.hasAllRequired(requestJson, "warning, critical, dailyRule");
         return service.updateCodeConfig(requestJson);
     }
 
@@ -84,7 +84,7 @@ public class DailyConfigController {
     @RequiresPermissions("scriptConfig:update")
     @PostMapping("/updateIdConfig")
     public JSONObject updateIdConfig(@RequestBody JSONObject requestJson){
-        CommonUtil.hasAllRequired(requestJson, "waringPriv, criticalPriv");
+        CommonUtil.hasAllRequired(requestJson, "warningPriv, criticalPriv");
         return service.updateIdConfig(requestJson);
     }
 

@@ -26,4 +26,9 @@ public interface DailyLogDao {
      */
 	int deleteLog(JSONObject jsonObject);
 
+	/**
+	 * 导出execl
+	 */
+	String dailyLogToExecl();
+
 }

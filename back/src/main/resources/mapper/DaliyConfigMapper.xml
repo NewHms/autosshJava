@@ -90,7 +90,8 @@
                           FROM
                                   dc_daily_config
                           )
-        AND   dss.is_delete = 0                 LIMIT 1
+        AND   dss.is_delete = 0
+        AND   shell_desc  != '检查备份'  LIMIT 1
     </select>
     <update id="updateCodeConfig" parameterType="com.alibaba.fastjson.JSONObject">
         UPDATE dc_daily_config ddc
@@ -98,9 +99,9 @@
                 ddc.code           = #{code},
                 ddc.daily_desc     = #{dailyDesc},
                 ddc.daily_rule     = #{dailyRule},
-                ddc.warning         = #{warning},
+                ddc.warning        = #{warning},
                 ddc.critical       =  #{critical}
-        WHERE  ddc.code          = #{code}
+        WHERE  ddc.code           = #{code}
     </update>
 
     <update id="updateIdConfig" parameterType="com.alibaba.fastjson.JSONObject">
@@ -121,13 +122,13 @@
     <insert id="addConfig" parameterType="com.alibaba.fastjson.JSONObject">
         INSERT
         INTO  dc_daily_config
-              (`ip`, `type`, `code`, `daily_desc`, `waring`, `critical`, daily_rule)
+              (`ip`, `type`, `code`, `daily_desc`, `warning`, `critical`, daily_rule)
         SELECT
                 `host`,
                 `type`,
                 level_shell.`code`,
                 level_shell.shell_desc,
-                #{waring},
+                #{warning},
                 #{critical},
                 #{dailyRule}
         FROM
@@ -169,11 +170,7 @@
                 ) + 1
             )) level_1
             JOIN dc_shell_setting level_shell
-            ON level_1.sys_version = CONCAT(
-                level_shell.system_type,
-                '_',
-                level_shell.system_version
-                )
+            ON level_1.sys_version = level_shell.system_type
         WHERE
         `code` = #{code}
     </insert>

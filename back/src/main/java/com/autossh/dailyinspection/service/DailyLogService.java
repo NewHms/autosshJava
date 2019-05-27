@@ -18,4 +18,9 @@ public interface DailyLogService {
      */
     JSONObject deleteLog(JSONObject jsonObject);
 
+	/**
+	 * 导出execl
+	 */
+	String dailyLogToExecl(JSONObject jsonObject);
+
 }

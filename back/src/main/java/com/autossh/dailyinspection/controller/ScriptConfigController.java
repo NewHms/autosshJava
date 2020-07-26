@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.*;
 import javax.servlet.http.HttpServletRequest;
 
 /**
- * 日检服务器配置controller层
+ * 日检命令配置controller层
  */
 @RestController
 @RequestMapping("/scriptConfig")
@@ -71,5 +71,11 @@ public class ScriptConfigController {
     @GetMapping("/getAllServerType")
     public JSONObject getAllServerType() {
         return service.getAllServerType();
+    }
+
+    @RequiresPermissions(value = {"scriptConfig:add", "scriptConfig:update"}, logical = Logical.OR)
+    @GetMapping("/getAllSystemType")
+    public JSONObject getAllSystemType() {
+        return service.getAllSystemType();
     }
 }

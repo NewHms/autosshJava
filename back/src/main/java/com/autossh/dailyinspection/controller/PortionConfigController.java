@@ -20,7 +20,7 @@ public class PortionConfigController {
     private PortionConfigService service;
 
     /**
-     * 查看命令列表
+     * 查看配置列表
      * @param request
      * @return
      */
@@ -31,19 +31,30 @@ public class PortionConfigController {
     }
 
     /**
-     * 添加命令
+     * 查询一条需要回显在index add窗口
+     * @param request
+     * @return
+     */
+    @RequiresPermissions("scriptConfig:list")
+    @GetMapping("/listPortionOneConfig")
+    public JSONObject listPortionOneConfig(HttpServletRequest request){
+        return service.listPortionOne(CommonUtil.request2Json(request));
+    }
+
+    /**
+     * 添加配置
      * @param requestJson
      * @return
      */
     @RequiresPermissions("scriptConfig:add")
     @PostMapping("/addPortion")
-    public JSONObject addScript(@RequestBody JSONObject requestJson){
+    public JSONObject addPortion(@RequestBody JSONObject requestJson){
         CommonUtil.hasAllRequired(requestJson,"IP,sysVersion,execTime");
         return service.addPortion(requestJson);
     }
 
     /**
-     * 修改命令
+     * 修改配置
      * @param requestJson
      * @return
      */
@@ -55,7 +66,7 @@ public class PortionConfigController {
     }
 
     /**
-     * 删除命令
+     * 删除配置
      * @param requestJson
      * @return
      */

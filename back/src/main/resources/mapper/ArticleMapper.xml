@@ -4,10 +4,11 @@
 <mapper namespace="com.autossh.article.dao.ArticleDao">
 
     <insert id="addArticle" parameterType="com.alibaba.fastjson.JSONObject">
-        INSERT INTO article
-            (content)
+        INSERT
+        INTO article
+               (content)
         VALUES
-            (#{content})
+               (#{content})
     </insert>
 
     <select id="countArticle" resultType="Integer">
@@ -18,9 +19,9 @@
 
     <select id="listArticle" resultType="com.alibaba.fastjson.JSONObject">
         SELECT
-            w.id                                      id,
-            w.content                                 content,
-            date_format(w.create_time, '%Y.%m.%d %T') createTime
+                w.id id,
+                w.content content,
+                date_format(w.create_time, '%Y.%m.%d %T') createTime
         FROM article w
         WHERE w.delete_status = '1'
         ORDER BY w.id DESC
@@ -30,7 +31,7 @@
     <update id="updateArticle" parameterType="com.alibaba.fastjson.JSONObject">
         UPDATE article
         SET
-            content = #{content}
+                content = #{content}
         WHERE id = #{id}
     </update>
 

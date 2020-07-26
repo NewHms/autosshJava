@@ -17,7 +17,7 @@ public class ServerConfigServiceImpl implements ServerConfigService {
     private ServerConfigDao dao;
 
     /**
-     * 新增命令
+     * 新增服务器
      * @param jsonObject
      * @return
      */
@@ -29,7 +29,7 @@ public class ServerConfigServiceImpl implements ServerConfigService {
     }
 
     /**
-     * 命令列表
+     * 服务器列表
      * @param jsonObject
      * @return
      */
@@ -41,6 +41,12 @@ public class ServerConfigServiceImpl implements ServerConfigService {
         return CommonUtil.successPage(jsonObject,list,count);
     }
 
+    /**
+     * 更新服务器
+     * @param jsonObject
+     * @return
+     */
+
     @Override
     @Transactional(rollbackFor = Exception.class)
     public JSONObject updateServer(JSONObject jsonObject) {
@@ -48,6 +54,11 @@ public class ServerConfigServiceImpl implements ServerConfigService {
         return CommonUtil.successJson();
     }
 
+    /**
+     * 删除服务器
+     * @param jsonObject
+     * @return
+     */
     @Transactional(rollbackFor = Exception.class)
     @Override
     public JSONObject deleteServer(JSONObject jsonObject) {
@@ -55,6 +66,27 @@ public class ServerConfigServiceImpl implements ServerConfigService {
         return CommonUtil.successJson();
     }
 
+    /**
+     * 获取所有job信息
+     * @param
+     * @return
+     */
+    @Override
+    @Transactional(rollbackFor = Exception.class)
+    public List<JSONObject> getAllJobInfo() {
+        return dao.getAllJobInfo();
+    }
+
+    /**
+     * 数据对比
+     * @param id
+     * @return
+     */
+    @Override
+    @Transactional(rollbackFor = Exception.class)
+    public List<JSONObject> equalsServer(String id) {
+        return dao.equalsServer(id);
+    }
 
     /**
      * 查询所有服务器的类型

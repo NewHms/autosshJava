@@ -31,4 +31,10 @@ public interface ScriptConfigService {
 	 * 在选择服务器类型的时候要使用此方法
 	 */
 	JSONObject getAllServerType();
+
+	/**
+	 * 查询所有服务器的适用版本
+	 * 在选择服务器适用版本的时候要使用此方法
+	 */
+	JSONObject getAllSystemType();
 }

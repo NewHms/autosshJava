@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.autossh.dailyinspection.dao.DailyLogDao">
+
+    <select id="countLog" resultType="Integer">
+        SELECT
+	            count(0)
+        FROM(
+                 SELECT
+                        dc_log.id,
+                        dc_log.ip,
+                        dc_log.user USER,
+                        dss.shell_name shellName,
+                        dss.shell_desc shellDesc,
+                        dc_log.exec_result execResult,
+                        dc_log.result_status resultStatus,
+                        dc_log.exec_status execStatus,
+                        dc_log.exec_time execTime,
+                        dc_log.exec_num execNum,
+                        dc_log.type
+                 FROM
+                        dc_daily_log dc_log
+                 JOIN
+                        dc_shell_setting dss
+                 ON     dc_log.code = dss.code
+                 WHERE dc_log.IS_DELETE = 0
+                 AND exec_result != ""
+                    <if test="IP != '' and IP != null ">
+                 AND ip LIKE "%"#{IP}"%"
+                    </if>
+                    <if test="resultStatus != '' and resultStatus != null ">
+                 AND substring_index(dc_log.result_status,"_",1) = #{resultStatus}
+                    </if>
+                    <if test="dataTime != '' and dataTime != null ">
+                 AND DATE_FORMAT(dc_log.exec_time,'%Y-%m-%d') = RTRIM( LTRIM(#{dataTime}))
+                    </if>
+        ) LEVEL1
+        LIMIT #{offSet}, #{pageRow}
+    </select>
+
+    <select id="listLog" resultType="com.alibaba.fastjson.JSONObject">
+        SELECT
+                dc_log.id,
+                dc_log.ip,
+                dc_log.user USER,
+                dss.shell_name shellName,
+                dss.shell_desc shellDesc,
+                dc_log.exec_result execResult,
+                substring_index(substring_index(dc_log.result_status,"_",-1),"_",1) resultStatus,
+                dc_log.exec_status execStatus,
+                date_format(dc_log.exec_time, '%Y-%m-%d %T') execTime,
+                dc_log.exec_num execNum,
+                dc_log.type
+        FROM
+                dc_daily_log dc_log
+        LEFT JOIN
+                dc_shell_setting dss
+        ON      dc_log.code = dss.code
+        WHERE dc_log.IS_DELETE = 0
+        AND exec_result != ""
+        <if test="IP != '' and IP != null ">
+        AND ip LIKE "%"#{IP}"%"
+        </if>
+        <if test="resultStatus != '' and resultStatus != null ">
+        AND dc_log.result_status LIKE "%"#{resultStatus}"%"
+        </if>
+        <if test="dataTime != '' and dataTime != null ">
+        AND DATE_FORMAT(dc_log.exec_time,'%Y-%m-%d') = RTRIM(LTRIM(#{dataTime}))
+        </if>
+        ORDER BY
+                 result_status DESC,
+                 dc_log.exec_time DESC,
+                 exec_num    DESC
+        LIMIT #{offSet}, #{pageRow}
+    </select>
+
+    <update id="deleteLog" parameterType="com.alibaba.fastjson.JSONObject">
+        UPDATE    dc_daily_log ddl
+        SET    ddl.is_delete = '1'
+        WHERE    ddl.id= #{id};
+    </update>
+
+</mapper>

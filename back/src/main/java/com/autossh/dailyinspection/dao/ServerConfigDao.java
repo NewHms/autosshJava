@@ -11,27 +11,27 @@ import java.util.List;
 @Component
 public interface ServerConfigDao {
 	/**
-	 * 新增命令
+	 * 新增服务器
 	 */
 	int addServer(JSONObject jsonObject);
 
 	/**
-	 * 统计命令总数
+	 * 统计服务器总数
 	 */
 	int countServer(JSONObject jsonObject);
 
 	/**
-	 * 命令列表
+	 * 服务器列表
 	 */
 	List<JSONObject> listServer(JSONObject jsonObject);
 
 	/**
-	 * 更新命令
+	 * 更新服务器
 	 */
 	int updateServer(JSONObject jsonObject);
 
     /**
-     * 删除命令
+     * 删除服务器
      */
 	int deleteServer(JSONObject jsonObject);
 
@@ -41,4 +41,21 @@ public interface ServerConfigDao {
 	 * List<JSONObject> getAllServerType();
 	 */
 
+	/**
+	 * 提供给quartz，查询所有任务
+	 */
+	List<JSONObject> getAllJobInfo();
+
+
+	/**
+	 * 提供给数据对比
+	 */
+	List<JSONObject> equalsServer(String id);
+
+	/**
+	 * 提供给页面，查询任务
+	 * @param name
+	 * @return
+	 */
+	JSONObject getJobInfo(String name);
 }

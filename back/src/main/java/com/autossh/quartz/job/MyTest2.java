@@ -1,12 +1,22 @@
 package com.autossh.quartz.job;
 
-import org.quartz.Job;
-import org.quartz.JobExecutionContext;
-import org.quartz.JobExecutionException;
+import com.autossh.dailyinspection.controller.ServerConfigController;
+import org.quartz.Scheduler;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.scheduling.annotation.Scheduled;
+import org.springframework.stereotype.Component;
 
-public class MyTest2 implements Job {
-    @Override
-    public void execute(JobExecutionContext jobExecutionContext) throws JobExecutionException {
-        System.out.println("myTest 2 2 2 2 2 ");
+
+@Component
+public class MyTest2{
+    @Autowired
+    @Qualifier("Scheduler")
+    private Scheduler scheduler;
+    @Scheduled(cron = "*/10 * * * * *")
+    public void test(){
+        ServerConfigController serverConfigController = new ServerConfigController();
+        serverConfigController.killRunJob(scheduler);
+
     }
 }

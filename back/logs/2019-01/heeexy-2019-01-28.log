@@ -1,6 +1,0 @@
-2019-01-28 13:34:01.617 DEBUG --- [ResourceBundleMessageInterpolator.java:89][background-preinit] - Loaded expression factory via original TCCL
-2019-01-28 13:34:02.047 INFO  --- [StartupInfoLogger.java:50][restartedMain] - Starting MyApplication on han-shy with PID 1476 (E:\IDE\boot-vue-shiro\SpringBoot-Shiro-Vue\java\back\target\classes started by lenovo in E:\IDE\boot-vue-shiro\SpringBoot-Shiro-Vue\java\back)
-2019-01-28 13:34:02.049 INFO  --- [SpringApplication.java:675][restartedMain] - No active profile set, falling back to default profiles: default
-2019-01-28 13:34:05.790 INFO  --- [DruidDataSourceAutoConfigure.java:56][restartedMain] - Init DruidDataSource
-2019-01-28 13:34:06.804 INFO  --- [DruidDataSource.java:928][restartedMain] - {dataSource-1} inited
-2019-01-28 13:34:10.730 INFO  --- [StartupInfoLogger.java:59][restartedMain] - Started MyApplication in 10.331 seconds (JVM running for 16.006)

@@ -1,0 +1,205 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.autossh.dailyinspection.dao.ServerConfigDao">
+
+    <insert id="addServer" parameterType="com.alibaba.fastjson.JSONObject">
+        INSERT
+        INTO dc_server_setting
+               (host, service_name, post, application_server, user_name, password, db_username, db_password,
+                subject, system_type, crontab, exec_time, time_out, backup_num, backup_url)
+        VALUES
+	            (#{host}, #{serviceName}, #{post}, #{applicationServer}, #{userName}, #{password}, #{dbUsername},
+	             #{dbPassword}, #{subject}, #{systemType}, #{crontab}, #{execTime}, #{timeOut}, #{backupNum}, #{backupUrl});
+    </insert>
+
+    <select id="countServer" resultType="Integer">
+        SELECT
+	           count(0)
+        FROM
+              (
+                SELECT
+                            p.id,
+                            q.host host,
+                            q.service_name serviceName,
+                            q.post post,
+                            q.application_server applicationServer,
+                            q.user_name userName,
+                            q.password  password,
+                            q.db_username dbUsername,
+                            q.db_password dbPassword,
+                            p.sys_version sysVersion,
+                            q.subject subject,
+                            q.system_type systemType,
+                            q.crontab crontab,
+                            q.creation_date createTime,
+                            q.exec_time execTime,
+                            q.time_out timeOut,
+                            q.crontab cron,
+                            'name',
+                            'group',
+                            q.class_path classPath
+                FROM
+                        dc_server_setting q
+                LEFT JOIN dc_distribute_setting p ON q. HOST = p.IP
+                AND q.system_type = p.system_type
+                WHERE
+                        q.is_delete = 0
+                AND
+                        p.is_delete = 0
+        ) LEVEL1
+    </select>
+
+    <select id="listServer" resultType="com.alibaba.fastjson.JSONObject">
+        SELECT
+                    p.id,
+                    q.host host,
+                    q.service_name serviceName,
+                    q.post post,
+                    q.application_server applicationServer,
+                    q.user_name userName,
+                    q.password  password,
+                    q.db_username dbUsername,
+                    q.db_password dbPassword,
+                    p.sys_version sysVersion,
+                    q.subject subject,
+                    q.system_type systemType,
+                    q.crontab crontab,
+                    q.creation_date createTime,
+                    q.exec_time execTime,
+                    q.time_out  timeOut,
+                    q.backup_num backupNum,
+                    q.backup_url backupUrl,
+                    q.crontab cron,
+                    'group',
+                    q.class_path classPath
+        FROM
+                  dc_server_setting q
+        LEFT JOIN  dc_distribute_setting p ON q. HOST = p.IP
+        AND  q.system_type = p.system_type
+        WHERE
+                  q.is_delete = 0
+        AND
+                  p.is_delete = 0
+        <if test="host != '' and host != null ">
+        AND host LIKE "%"#{host}"%"
+        </if>
+
+        <if test="id != '' and id != null ">
+        AND p.id = #{id}
+        </if>
+        LIMIT #{offSet}, #{pageRow}
+    </select>
+
+    <select id="equalsServer" resultType="com.alibaba.fastjson.JSONObject">
+        SELECT
+                    p.id,
+                    q.host host,
+                    q.service_name serviceName,
+                    q.post post,
+                    q.application_server applicationServer,
+                    q.user_name userName,
+                    q.password  password,
+                    q.db_username dbUsername,
+                    q.db_password dbPassword,
+                    p.sys_version sysVersion,
+                    q.subject subject,
+                    q.system_type systemType,
+                    q.crontab crontab,
+                    q.creation_date createTime,
+                    q.exec_time execTime,
+                    q.time_out  timeOut,
+                    q.backup_num backupNum,
+                    q.backup_url backupUrl,
+                    q.crontab cron,
+                    'group',
+                    q.class_path classPath
+        FROM
+                   dc_server_setting q
+        LEFT JOIN   dc_distribute_setting p ON q. HOST = p.IP
+        AND  q.system_type = p.system_type
+        WHERE
+                  q.is_delete = 0
+        AND
+                  p.is_delete = 0
+        AND  p.id = #{id}
+    </select>
+
+    <select id="getAllJobInfo" resultType="com.alibaba.fastjson.JSONObject">
+        SELECT
+                p.id,
+                q.host host,
+                q.system_type type,
+                q.service_name serviceName,
+                q.post post,
+                q.application_server applicationServer,
+                q.user_name userName,
+                q.password  password,
+                q.db_username dbUsername,
+                q.db_password dbPassword,
+                p.sys_version sysVersion,
+                q.subject subject,
+                q.system_type systemType,
+                q.crontab crontab,
+                q.creation_date createTime,
+                q.exec_time execTime,
+                q.time_out  timeOut,
+                q.backup_num backupNum,
+                q.backup_url backupUrl,
+                'group',
+                q.class_path classPath
+        FROM
+                dc_server_setting q
+        LEFT JOIN dc_distribute_setting p ON q. HOST = p.IP
+        AND q.system_type = p.system_type
+        WHERE
+                q.is_delete = 0
+        AND
+                p.is_delete = 0
+        AND
+                q.CRONTAB = 1
+        <if test="host != '' and host != null ">
+        AND host LIKE "%"#{host}"%"
+        </if>
+
+    </select>
+
+    <!--适用版本字段不可修改 -->
+    <update id="updateServer" parameterType="com.alibaba.fastjson.JSONObject">
+        UPDATE dc_server_setting ssh
+        LEFT JOIN
+                dc_distribute_setting dds ON ssh. HOST = dds.IP
+        AND ssh.system_type = dds.system_type
+        SET
+                ssh.host                =  #{host},
+                ssh.service_name        =  #{serviceName},
+                ssh.post                =  #{post},
+                ssh.application_server  =  #{applicationServer},
+                ssh.user_name           =  #{userName},
+                ssh.db_username         =  #{dbUsername},
+                <!-- DDS.SYS_VERSION         =  #{sysVersion},-->
+                ssh.subject             =  #{subject},
+                ssh.system_type         =  #{systemType},
+                ssh.crontab             =  #{crontab},
+                ssh.password            =  #{password},
+                ssh.db_password         =  #{dbPassword},
+                ssh.exec_time           =  #{execTime},
+                ssh.time_out            =  #{timeOut},
+                ssh.backup_num          = #{backupNum},
+                ssh.backup_url          = #{backupUrl}
+        WHERE   dds.id = #{id}
+    </update>
+
+    <update id="deleteServer" parameterType="com.alibaba.fastjson.JSONObject">
+        UPDATE   dc_server_setting ssh
+        SET   ssh.is_delete = '1'
+        WHERE   ssh.id = #{id};
+
+        UPDATE    dc_distribute_setting dds
+        SET    dds.is_delete = '1'
+        WHERE     dds.IP = (SELECT  ssh.host
+                             FROM   dc_server_setting ssh
+                             WHERE   ssh.id = #{id});
+    </update>
+
+</mapper>
